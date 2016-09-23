@@ -1,0 +1,744 @@
+/* Normalizes margin,padding */
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, th, td {
+  font-family: "Microsoft YaHei", "Helvetica Neue", "Droid Sans", "Droid Sans Fallback", "Heiti SC", "Hiragino Sans GB", "Simsun", "sans-self";
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Normalizes font-size for headers */
+
+
+/*h1,h2,h3,h4,h5,h6 { font-size:100%;margin-top: 0;margin-bottom: 0;}*/
+
+html, body {
+  font-size: 14px;
+}
+
+
+/* Removes list-style from lists */
+
+ol, ul {
+  list-style: none
+}
+
+
+/* Normalizes font-size and font-weight to normal */
+
+address, caption, cite, code, dfn, em, strong, th, var {
+  font-size: normal;
+  font-weight: normal
+}
+
+
+/* Removes list-style from lists */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+}
+
+
+/* Removes border from fieldset and img */
+
+fieldset, img {
+  border: 0
+}
+
+button {
+  border: none;
+  background: none;
+}
+
+textarea {
+  resize: none;
+}
+
+
+/* Left-aligns text in caption and th */
+
+caption, th {
+  text-align: left
+}
+
+i, em {
+  font-style: normal;
+}
+
+p {
+  margin: 0;
+}
+
+hr {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+
+/* Removes quotation marks from q */
+
+q:before, q:after {
+  content: ''
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.fr_i {
+  float: right!important;
+}
+
+a:focus {
+  outline: none!important;
+}
+
+a {
+  text-decoration: none!important;
+}
+
+[contenteditable="true"], button:focus, input:focus {
+  outline: none;
+  -moz-outline: none;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+html {
+  overflow: hidden
+}
+
+.row, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+  padding-right: 0rem;
+  padding-left: 0rem;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.checkbox, .radio {
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+}
+
+*:hover {
+  transition: all 0.3s;
+}
+
+.underline {
+  text-decoration: underline!important;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.red {
+  color: #fa3637;
+}
+
+.light-grey {
+  color: #b8bcc0;
+}
+
+.dark-gray {
+  color: #4d555c;
+}
+
+.greyBasic {
+  color: #8d969e;
+}
+
+.default {
+  cursor: default!important;
+}
+
+.fs10 {
+  font-size: 10px;
+}
+
+.fs11 {
+  font-size: 11px;
+}
+
+.fs12 {
+  font-size: 12px;
+}
+
+.fs13 {
+  font-size: 13px;
+}
+
+.fs14 {
+  font-size: 14px;
+}
+
+.fs15 {
+  font-size: 15px;
+}
+
+.fs16 {
+  font-size: 16px;
+}
+
+.fs17 {
+  font-size: 17px;
+}
+
+.fs18 {
+  font-size: 18px
+}
+
+.fs19 {
+  font-size: 19px;
+}
+
+.fs20 {
+  font-size: 20px
+}
+
+.fs24 {
+  font-size: 24px;
+}
+
+.fs25 {
+  font-size: 25px;
+}
+
+.fs30 {
+  font-size: 30px;
+}
+
+.fs36 {
+  font-size: 36px;
+}
+
+.fs48 {
+  font-size: 48px;
+}
+
+.fs50 {
+  font-size: 50px;
+}
+
+.tc {
+  text-align: center;
+}
+
+.tr {
+  text-align: right;
+}
+
+.tl {
+  text-align: left;
+}
+
+.fontnarmal {
+  font-weight: normal;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.block {
+  display: block;
+}
+
+.inlineblock {
+  display: inline-block;
+}
+
+.overflow {
+  overflow: hidden;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.nowrap {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.break {
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.relative {
+  position: relative;
+}
+
+.m0 {
+  margin: 0!important;
+}
+
+.m5 {
+  margin: 5px;
+}
+
+.mr5 {
+  margin-right: 5px;
+}
+
+.mr10 {
+  margin-right: 10px;
+}
+
+.mr15 {
+  margin-right: 15px;
+}
+
+.mr20 {
+  margin-right: 20px
+}
+
+.mr35 {
+  margin-right: 35px;
+}
+
+.m10 {
+  margin: 10px;
+}
+
+.m15 {
+  margin: 15px;
+}
+
+.m20 {
+  margin: 20px
+}
+
+.ml0 {
+  margin-left: 0;
+}
+
+.ml5 {
+  margin-left: 5px;
+}
+
+.ml10 {
+  margin-left: 10px;
+}
+
+.ml60 {
+  margin-left: 60px;
+}
+
+.ml100 {
+  margin-left: 100px;
+}
+
+.ml20 {
+  margin-left: 20px
+}
+
+.ml140 {
+  margin-left: 140px;
+}
+
+.mt0 {
+  margin-top: 0;
+}
+
+.mt2 {
+  margin-top: 2px;
+}
+
+.mt5 {
+  margin-top: 5px;
+}
+
+.mt7 {
+  margin-top: 7px;
+}
+
+.mt8 {
+  margin-top: 8px;
+}
+
+.mt9 {
+  margin-top: 9px;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.mt13 {
+  margin-top: 13px;
+}
+
+.mt15 {
+  margin-top: 15px;
+}
+
+.mt18 {
+  margin-top: 18px
+}
+
+.mt20 {
+  margin-top: 20px
+}
+
+.mt25 {
+  margin-top: 25px;
+}
+
+.mt30 {
+  margin-top: 30px;
+}
+
+.mt35 {
+  margin-top: 35px;
+}
+
+.mt80 {
+  margin-top: 80px;
+}
+
+.mt200 {
+  margin-top: 200px;
+}
+
+.mtb10 {
+  margin: 10px 0;
+}
+
+.mb30 {
+  margin-bottom: 30px;
+}
+
+.p0 {
+  padding: 0;
+}
+
+.pt2 {
+  padding-top: 2px;
+}
+
+.pt3 {
+  padding-top: 3px;
+}
+
+.p5 {
+  padding: 5px;
+}
+
+.p10 {
+  padding: 10px!important;
+}
+
+.p15 {
+  padding: 15px;
+}
+
+.p20 {
+  padding: 20px
+}
+
+.pt5 {
+  padding-top: 5px;
+}
+
+.pt10 {
+  padding-top: 10px;
+}
+
+.pt15 {
+  padding-top: 15px;
+}
+
+.pt20 {
+  padding-top: 20px
+}
+
+.pt100 {
+  padding-top: 100px;
+}
+
+.pl5 {
+  padding-left: 5px;
+}
+
+.pl24 {
+  padding-left: 24px;
+}
+
+.pl30 {
+  padding-left: 30px;
+}
+
+.pl60 {
+  padding-left: 60px;
+}
+
+.pr5 {
+  padding-right: 5px;
+}
+
+.pr10 {
+  padding-right: 10px;
+}
+
+.pr20 {
+  padding-right: 20px
+}
+
+.pr30 {
+  padding-right: 30px;
+}
+
+.plr10 {
+  padding: 0 10px;
+}
+
+.plr20 {
+  padding: 0 20px
+}
+
+.plr15 {
+  padding: 0 15px;
+}
+
+.ptb10 {
+  padding: 10px 0;
+}
+
+.ptb20 {
+  padding: 20px 0;
+}
+
+.pl10 {
+  padding-left: 10px;
+}
+
+.pb10 {
+  padding-bottom: 10px;
+}
+
+.pl20 {
+  padding-left: 20px
+}
+
+.pb20 {
+  padding-bottom: 20px
+}
+
+.pb0 {
+  padding-bottom: 0;
+}
+
+.white {
+  color: #fff;
+}
+
+.darkRed {
+  color: #C60A00;
+}
+
+.border0 {
+  border: none;
+}
+
+.bottom0 {
+  border-bottom: none!important;
+}
+
+.left0 {
+  border-left: none!important;
+}
+
+.top0 {
+  border-top: none;
+}
+
+.right0 {
+  border-right: none!important;
+}
+
+.lh10 {
+  line-height: 10px;
+}
+
+.lh18 {
+  line-height: 18px
+}
+
+.lh20 {
+  line-height: 20px
+}
+
+.lh25 {
+  line-height: 25px;
+}
+
+.lh28 {
+  line-height: 28px;
+}
+
+.lh30 {
+  line-height: 30px;
+}
+
+.lh34 {
+  line-height: 34px;
+}
+
+.lh40 {
+  line-height: 40px;
+}
+
+.lh50 {
+  line-height: 50px;
+}
+
+.lh60 {
+  line-height: 60px;
+}
+
+.h30 {
+  height: 30px!important;
+}
+
+.h40 {
+  height: 40px;
+}
+
+.h50 {
+  height: 50px;
+}
+
+.h60 {
+  height: 60px;
+}
+
+.h70 {
+  height: 70px;
+}
+
+.h80 {
+  height: 80px;
+}
+
+.h90 {
+  height: 90px;
+}
+
+.h100 {
+  height: 100px;
+}
+
+.minh30 {
+  min-height: 30px;
+}
+
+.radius0 {
+  border-radius: 0;
+}
+
+.radius3 {
+  border-radius: 3px;
+}
+
+.radius4 {
+  border-radius: 4px;
+}
+
+.radius5 {
+  border-radius: 5px;
+}
+
+.radius20 {
+  border-radius: 20px
+}
+
+.radius50 {
+  border-radius: 50%;
+}
+
+.radTL3 {
+  border-radius: 3px 0 0 3px;
+}
+
+.radRB3 {
+  border-radius: 0 3px 3px 0;
+}
+
+.indent24 {
+  text-indent: 24px;
+}
+
+
+/** *弹出框 */
+
+.dialog {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 19991017;
+  background: #fff;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  _position: absolute;
+  _top: expression(document.documentElement.scrollTop+document.documentElement.clientHeight/2);
+}
+
+.dia-tit {
+  font-size: 14px;
+  font-family: "microsoft yahei";
+  height: 40px;
+  line-height: 40px;
+  background: #eee;
+  padding: 0 8px;
+}
+
+.dia-close {
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  font-family: "microsoft yahei";
+  font-size: 25px;
+  cursor: pointer;
+  color: #999;
+  text-align: center;
+}
+
+.icon-close:before {
+  content: "\ea0d";
+}
+
+.dia-close:hover {
+  color: #6ea8ff;
+}
+
+.overlayer {
+  background: #000;
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+  -moz-opacity: 0.7;
+  -webkit-opacity: 0.7;
+  _position: absolute;
+  _height: expression(document.body.clientHeight);
+}
+
+table {
+  margin-bottom: 0!important;
+}

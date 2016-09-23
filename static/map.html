@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>位置分享</title>
+	<link rel="icon" href="./images/favicon.ico" type="image/x-icon">
+	<style type="text/css">
+		body,
+		html,
+		#allmap {
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			margin: 0;
+			font-family: "微软雅黑";
+		}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=AT4stk8NLVz08bpv9E76gbS4"></script>
+</head>
+
+<body>
+	<div id="allmap"></div>
+	<script type="text/javascript">
+		var hash = (location.hash);
+		var longX = (hash.split('-')[0]).replace('#', '');
+		var latY = hash.split('-')[1];
+		var map = new BMap.Map("allmap"); // 创建Map实例
+		var pt = new BMap.Point(longX, latY);
+		map.centerAndZoom(pt, 15); // 初始化地图,设置中心点坐标和地图级别
+		var city = "";
+		var geoc = new BMap.Geocoder();
+		geoc.getLocation(pt, function(rs) {
+			var addComp = rs.addressComponents;
+			city = addComp.city; //获取当前坐标所在的城市
+		});
+		map.addControl(new BMap.MapTypeControl()); //添加地图类型控件
+		map.setCurrentCity(city); // 设置地图显示的城市 此项是必须设置的
+		map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+		var marker = new BMap.Marker(pt); // 创建标注
+		map.addOverlay(marker); // 将标注添加到地图中
+		marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+	</script>
+</body>
+
+</html>

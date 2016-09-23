@@ -1,0 +1,35 @@
+.loading_left {
+  width: 20%;
+  background: #2e343e;
+  height: 100rem;
+}
+.loading_right {
+  width: 80%;
+  background: #fff;
+  height: 100rem;
+  padding: 5.0rem;
+  font-size: 1.6rem;
+}
+.loading_right .dark_red {
+  color: #990002;
+}
+.loading_right .show_box {
+  width: 35%;
+  margin: 50px auto;
+  color: #8f9092;
+}
+.loading_right .show_box .right_distance {
+  padding-top: 5rem;
+}
+.loading_right .show_box img {
+  max-width: 100%;
+}
+.loading_right .footer {
+  position: fixed;
+  bottom: 0px;
+  right: 0;
+  width: 80%;
+  text-align: center;
+  z-index: 33;
+}
+/*# sourceMappingURL=loading.css.map */
