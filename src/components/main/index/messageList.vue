@@ -50,7 +50,8 @@
 			gloabl.fethAsync([URL.MESSAGE_URL], '', res => {
 				if (res.success) {
 					this.messageList = res.result;
-					gloabl.doResizeHeight();
+					// console.table(this.messageList);
+					gloabl.doResizeHeight(this.messageList);
 				}
 			})
 		},

@@ -50,13 +50,6 @@
 //--------------end---------------
 
 
-
-
-
-
-
-
-
 //正式环境打开－－－－－－begin－－－－－－－－－－－－－
 //const COOKIE_PATH = 'http://sm.miux.com.cn:8083/SessionManager/';
 //const UM_PATH = 'http://um.miux.com.cn:8082/MIUX_ESE_UM/';

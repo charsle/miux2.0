@@ -9,7 +9,7 @@ import messageContent from '../../components/main/index/messageContent';
 import manage from '../../components/main/manage/manage';
 import detaile from '../../components/main/model/noticeDetaile';
 import app from '../../components/main/index/app';
-import modal from 'vue-bootstrap-modal';
+// import modal from 'vue-bootstrap-modal';
 import {
   filters
 } from '../../assets/js/filters';
@@ -21,7 +21,7 @@ Vue.component('creat-group', createGroup);
 Vue.component('creat-pubgroup', createPubGroup);
 Vue.component('choose-person', choosePerson);
 Vue.component('treeItem', item);
-Vue.component('modal', modal);
+// Vue.component('modal', modal);
 Vue.use(VueRouter);
 
 var ada = JSON.parse(gloabl.getCookie('allUserInfo')).ada != null ? JSON.parse(gloabl.getCookie('allUserInfo')).ada : '阿达';

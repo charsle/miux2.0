@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '../assets/css/reset.css';
 import '../assets/css/iconfont.css';
 import '../../static/lib/layer/skin/layer.css'
-import 'lightbox2/dist/css/lightbox.min.css'
+import 'lightbox2/dist/css/lightbox.css'
 require('lightbox2');
 import 'bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css'
 require('bootstrap-switch');
