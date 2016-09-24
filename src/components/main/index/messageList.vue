@@ -6,7 +6,9 @@
 
 					<img class="avatar" :src="teamPic | getUrl" width="40" height="40" v-if="item.UM0302==1">
 					<img class="avatar" :src="item.tx | getUrl" width="40" height="40" v-else>
-					<i style="position: absolute;left: 50px; top: 10px;" v-if="item.UM0310==0"></i>
+					<i style="position: absolute;left: 50px; top: 10px;" v-if="item.UM0310==0">
+						<span style="width:10px;height:10px;display:inline-block;background:red;border:2px solid rgba(255,255,255,0.8);border-radius:100%;"></span>
+					</i>
 					<div class="name">
 						<div class="user_name"><span v-text="item.UM0303"></span><span>{{(item.UM0306) | time}}</span>
 						</div>
@@ -46,11 +48,10 @@
 			}
 		},
 		ready() {
-			//查询最近消息i
+			//查询最近消息
 			gloabl.fethAsync([URL.MESSAGE_URL], '', res => {
 				if (res.success) {
 					this.messageList = res.result;
-					// console.table(this.messageList);
 					gloabl.doResizeHeight(this.messageList);
 				}
 			})
@@ -78,11 +79,13 @@
 						item.UM0310 = 1;
 					});
 				}
-			}
+			},
+
 
 		},
 
 		watch: {
+			//监控是否是新的成员
 			sendNewPersonSingleList: {
 				handler() {
 					var isExits = JSON.stringify(this.messageList).indexOf(this.sendNewPersonSingleList.UM0301);
@@ -92,84 +95,26 @@
 				}
 			},
 			newMessageList: {
-				//deep: true,
 				handler() {
-					var loop = false;
+					// console.info('接受到的信息', this.newMessageList)
+					var singleList = this.newMessageList;
 					for (let item of this.messageList) {
-						if (item.UM0302 === this.newMessageList.MSG00102) {
-							if (item.UM0307 == this.newMessageList.MSG00107) {
-								loop = true;
-								item.UM0301 = this.newMessageList.MSG00101;
-								item.UM0302 = this.newMessageList.MSG00102;
-								item.UM0303 = this.newMessageList.MSG00103;
-								item.UM0304 = this.newMessageList.MSG00104;
-								item.UM0306 = this.newMessageList.MSG00106;
-								item.UM0307 = this.newMessageList.MSG00107;
-								item.UM0308 = this.newMessageList.MSG00108;
-								item.UM0309 = gloabl.judgeType(this.newMessageList.MSG00108, this.newMessageList.MSG00109);
-								item.tx = this.newMessageList.MSG00110;
-								if (item.UM0302 === this.nowCurrent.sendid) {
-									item.UM0310 = 1;
-								} else {
-									item.UM0310 = 0;
-								}
+						//判断接受的消息是否在列表中 在列表中只改变消息内容和时间
+						if (singleList.MSG00107 == 1) {
+							if (item.UM0302 == singleList.MSG00102 || item.UM0302 == singleList.MSG00104) {
+								item.UM0306 = singleList.MSG00106;
+								item.UM0309 = gloabl.judgeType(singleList.MSG00108, singleList.MSG00109);
 							}
-						} else if (item.UM0302 === this.newMessageList.MSG00104) {
-							loop = true;
-							item.UM0309 = gloabl.judgeType(this.newMessageList.MSG00108, this.newMessageList.MSG00109);
-							item.UM0306 = this.newMessageList.MSG00106;
-							if (item.UM0302 === this.nowCurrent.sendid) {
-								item.UM0310 = 1;
-							} else {
-								item.UM0310 = 0;
+						} else if (singleList.MSG00107 == 2) {
+							if (item.UM0302 == singleList.MSG00104) {
+								item.UM0306 = singleList.MSG00106;
+								item.UM0309 = gloabl.judgeType(singleList.MSG00108, singleList.MSG00109);
 							}
-						} else {
-
 						}
+
 					}
-					if (!loop) {
 
-						var sendName = '',
-							redType = '',
-							docImg = '';
 
-						if (this.newMessageList.MSG00107 == 2) {
-							sendName = this.newMessageList.MSG00105;
-							redType = 0;
-
-						} else {
-							if (this.newMessageList.hasOwnProperty('isSelf')) {
-								console.log(loop + '发送');
-								sendName = this.newMessageList.MSG00105;
-								redType = 1;
-							} else {
-								sendName = this.newMessageList.MSG00103
-								console.log(loop + '接受');
-								redType = this.newMessageList.UM0310
-								console.log(redType);
-							}
-							if (this.newMessageList.hasOwnProperty('isShare')) {
-								docImg = this.newMessageList.docImg;
-							} else {
-								docImg = this.newMessageList.MSG00110;
-							}
-						}
-
-						var dd = {
-							UM0301: this.newMessageList.MSG00101,
-							UM0302: this.newMessageList.MSG00104,
-							UM0303: sendName,
-							UM0304: this.newMessageList.MSG00102,
-							UM0306: this.newMessageList.MSG00106,
-							UM0307: this.newMessageList.MSG00107,
-							UM0308: this.newMessageList.MSG00108,
-							UM0309: this.newMessageList.MSG00109,
-							UM0310: redType,
-							UM0311: this.newMessageList.MSG00101,
-							tx: docImg
-						}
-						this.messageList.unshift(dd);
-					}
 
 				}
 			}
