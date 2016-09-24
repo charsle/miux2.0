@@ -24,6 +24,8 @@
 	import fileModel from '../model/fileModel';
 	import load from '../../loading/loading';
 	import gloabl from '../../../api/globConfig'
+	import 'nprogress/nprogress.css'
+	var NProgress = require('nprogress');
 	export default {
 		data() {
 			return {
@@ -38,17 +40,23 @@
 		}, //初始化
 		store,
 		ready() {
+			NProgress.start();
 			$('#miuxApp').hide()
 			if (sessionStorage.getItem('loading') == null) {
 				sessionStorage.setItem('loading', 'loading')
+				NProgress.configure({
+					trickleRate: 0.1,
+					trickleSpeed: 300
+				});
 				setTimeout(() => {
 					$('#miuxApp').show()
 					$('#loadMIUX').hide();
+					NProgress.done();
 				}, 3000)
 			} else {
 				$('#loadMIUX').hide();
 				$('#miuxApp').show()
-
+				NProgress.done();
 			}
 			gloabl.doResizeHeight();
 			gloabl.doResizeWidth();
