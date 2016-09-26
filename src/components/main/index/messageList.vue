@@ -88,8 +88,13 @@
 			//监控是否是新的成员
 			sendNewPersonSingleList: {
 				handler() {
+
+
+
 					var isExits = JSON.stringify(this.messageList).indexOf(this.sendNewPersonSingleList.UM0301);
+					console.log(this.sendNewPersonSingleList.UM0301);
 					if (isExits < 0) {
+
 						this.messageList.push(this.sendNewPersonSingleList);
 					}
 				}
@@ -105,7 +110,7 @@
 								item.UM0306 = singleList.MSG00106;
 								item.UM0309 = gloabl.judgeType(singleList.MSG00108, singleList.MSG00109);
 							}
-						} else if (singleList.MSG00107 == 2) {
+						} else {
 							if (item.UM0302 == singleList.MSG00104) {
 								item.UM0306 = singleList.MSG00106;
 								item.UM0309 = gloabl.judgeType(singleList.MSG00108, singleList.MSG00109);

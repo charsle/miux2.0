@@ -46,13 +46,13 @@
 				sessionStorage.setItem('loading', 'loading')
 				NProgress.configure({
 					trickleRate: 0.1,
-					trickleSpeed: 300
+					trickleSpeed: 400
 				});
 				setTimeout(() => {
 					$('#miuxApp').show()
 					$('#loadMIUX').hide();
 					NProgress.done();
-				}, 3000)
+				}, 4000)
 			} else {
 				$('#loadMIUX').hide();
 				$('#miuxApp').show()

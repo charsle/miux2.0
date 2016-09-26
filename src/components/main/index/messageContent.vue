@@ -97,44 +97,33 @@
 				//deep: true,
 				handler() {
 					var personList = JSON.parse(gloabl.getCookie('allUserInfo')).user;
-					var newMessageListItem = this.newMessageList;
-
-					if (newMessageListItem.MSG00108 == 13) {
-						$('.m' + newMessageListItem.MSG00109).html('[该消息已撤回!]');
+					var singleList = this.newMessageList;
+					//除文本信息和@信息和撤回消息  MSG00109都是对象
+					if (singleList.MSG00108 !== 1 && singleList.MSG00108 !== 6 && singleList.MSG00108 !== 13) {
+						singleList.MSG00109 = JSON.parse(singleList.MSG00109);
+					}
+					if (singleList.MSG00108 == 13) {
+						$('.m' + singleList.MSG00109).html('[该消息已撤回]');
 						return;
+					} else {
+						if (singleList.MSG00107 == 1) {
+							if (singleList.MSG00104 == this.sendid || singleList.MSG00102 == this.sendid) {
+								this.items.push(singleList);
+							}
+
+						} else {
+							if (singleList.MSG00104 == this.sendid) {
+								this.items.push(singleList);
+							}
+						}
+						this.$nextTick(() => {
+							const ul = this.$els.list;
+							ul.scrollTop = ul.scrollHeight;
+						})
 					}
 
-					if ((newMessageListItem.MSG00109 + "").indexOf('{') > -1) {
-						newMessageListItem.MSG00109 = JSON.parse(newMessageListItem.MSG00109);
-					}
-					if (newMessageListItem.MSG00102 === this.sendid) {
-						if (newMessageListItem.hasOwnProperty('isCancel')) {
-							for (let item of this.items) {
-								if (item.MSG00101 === newMessageListItem.MSG00101) {
-									item.MSG00109 = '[消息已撤回]';
-								}
-							}
-						} else {
-							if (newMessageListItem.MSG00107 == this.sendType) {
-								this.items.push(newMessageListItem);
-							}
-						}
-					} else if (personList.UM0101 === newMessageListItem.MSG00102) {
-						if (newMessageListItem.MSG00107 == this.sendType && newMessageListItem.MSG00104 == this.sendid) {
-							this.items.push(newMessageListItem);
-						}
-					} else if (newMessageListItem.MSG00104 == this.sendid) { //如果id相同，发送类型相同
-						if (newMessageListItem.MSG00107 == this.sendType) {
-							this.items.push(newMessageListItem);
-						}
-					}
-					//						else if(newMessageListItem.MSG00107==this.sendType) {
-					//							this.items.push(newMessageListItem);
-					//						}
-					this.$nextTick(() => {
-						const ul = this.$els.list;
-						ul.scrollTop = ul.scrollHeight;
-					})
+
+
 				}
 			}
 		},

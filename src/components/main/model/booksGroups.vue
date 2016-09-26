@@ -102,7 +102,7 @@
 	import groupInfo from './groupInfo';
 	import gloabl from '../../../api/globConfig'
 	import * as URL from '../../../api/restfull'
-
+	import StringUtil from '../../../assets/js/stringUtil';
 	import {
 		uploadImage
 	} from '../../../../static/lib/updatephoto/miux_update_photo';
@@ -226,6 +226,20 @@
 							sendtype: 2
 						}
 					})
+					var time = StringUtil.dateFormat();
+					var items = {};
+					items.UM0301 = item.TM00201;
+					items.UM0302 = item.TM00201;
+					items.UM0303 = item.TM00206;
+					items.UM0304 = '';
+					items.UM0306 = time;
+					items.UM0307 = 2;
+					items.UM0308 = 1;
+					items.UM0309 = '';
+					items.UM0310 = 0;
+					items.tx = item.TM00210;
+					this.$store.dispatch('SEND_NEW_PERSON_LIST', items)
+
 				}
 			},
 			/**
