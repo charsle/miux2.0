@@ -88,9 +88,6 @@
 			//监控是否是新的成员
 			sendNewPersonSingleList: {
 				handler() {
-
-
-
 					var isExits = JSON.stringify(this.messageList).indexOf(this.sendNewPersonSingleList.UM0301);
 					console.log(this.sendNewPersonSingleList.UM0301);
 					if (isExits < 0) {
@@ -103,22 +100,39 @@
 				handler() {
 					// console.info('接受到的信息', this.newMessageList)
 					var singleList = this.newMessageList;
+					var loop = false;
 					for (let item of this.messageList) {
 						//判断接受的消息是否在列表中 在列表中只改变消息内容和时间
 						if (singleList.MSG00107 == 1) {
 							if (item.UM0302 == singleList.MSG00102 || item.UM0302 == singleList.MSG00104) {
 								item.UM0306 = singleList.MSG00106;
 								item.UM0309 = gloabl.judgeType(singleList.MSG00108, singleList.MSG00109);
+								if (item.UM0302 === this.nowCurrent.sendid) {
+									item.UM0310 = 1;
+								} else {
+									item.UM0310 = 0;
+								}
+							} else {
+								loop = true;
 							}
 						} else {
 							if (item.UM0302 == singleList.MSG00104) {
 								item.UM0306 = singleList.MSG00106;
 								item.UM0309 = gloabl.judgeType(singleList.MSG00108, singleList.MSG00109);
+								if (singleList.MSG00104 === this.nowCurrent.sendid) {
+									item.UM0310 = 1;
+								} else {
+									item.UM0310 = 0;
+								}
+							} else {
+								loop = true;
 							}
 						}
-
 					}
-
+					// console.log(loop);
+					// if (looloop) {
+					//
+					// }
 
 
 				}

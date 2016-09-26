@@ -81,7 +81,7 @@
 			document.onclick = () => {
 				this.isAtContent = false;
 			}
-			console.log(JSON.stringify(this.isUserInfo))
+
 			$('#text-custom-trigger').focus();
 		},
 		filters: {
@@ -258,7 +258,6 @@
 				var u_id = StringUtil.UUId(32);
 
 				var params = {
-					"UM0301": u_id,
 					"MSG00101": u_id,
 					"MSG00102": this.isUserInfo.UM0101,
 					"MSG00103": this.isUserInfo.UM0102,
