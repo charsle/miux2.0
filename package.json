@@ -43,6 +43,7 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "lightbox2": "^2.8.2",
+    "nprogress": "^0.2.0",
     "ora": "^0.2.0",
     "perfect-scrollbar": "^0.6.12",
     "shelljs": "^0.6.0",

@@ -46,35 +46,25 @@ exports.cssLoaders = function(options) {
 
 // Generate loaders for standalone style files (outside of .vue)
 exports.styleLoaders = function(options) {
-  var output = []
-  var loaders = exports.cssLoaders(options)
-  for (var extension in loaders) {
-    var loader = loaders[extension]
-    output.push({
-      test: new RegExp('\\.' + extension + '$'),
-      loader: loader
-    })
+    var output = []
+    var loaders = exports.cssLoaders(options)
+    for (var extension in loaders) {
+      var loader = loaders[extension]
+      output.push({
+        test: new RegExp('\\.' + extension + '$'),
+        loader: loader
+      })
+    }
+    return output
   }
-  return output
-}
+  //创建全局的js文件
 exports.getEntries = function(globPaht) {
-    var entries = {};
-    glob.sync(globPaht).forEach(function(entry) {
-      var temp = entry.split('/').splice(-3);
-      var moduleName = temp.slice(1, 2);
-      entries[moduleName] = entry;
-    })
-    return entries;
+  var entries = {};
+  glob.sync(globPaht).forEach(function(entry) {
+    var temp = entry.split('/').splice(-3);
+    var moduleName = temp.slice(1, 2);
+    entries[moduleName] = entry;
+  })
+  return entries;
 
-  }
-  // exports.getEntries = function(globPaht) {
-  //   var entries = {},
-  //     temp, moduleName, pathname;
-  //   glob.sync(globPaht).forEach(function(entry) {
-  //     basename = path.basename(entry, path.extname(entry));
-  //     temp = entry.split('/').splice(-3);
-  //     moduleName = temp.slice(0, 1) + '/' + basename;
-  //     entries[moduleName] = entry;
-  //   })
-  //   return entries;
-  // }
+}
