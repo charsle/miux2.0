@@ -2,6 +2,7 @@ import gloabl from '../../api/globConfig'
 import * as URL from '../../api/restfull'
 var _this = '';
 var userinfo = gloabl.getCookie('allUserInfo');
+// console.log(userinfo);
 var Websocket = {
   socket: null,
   userID: '',
@@ -87,7 +88,7 @@ var Websocket = {
         var message = JSON.parse(data.data.msg);
         message.UM0310 = 0;
         //message.UM0301 = message.MSG00101;
-        // console.log('接受的消息：', JSON.stringify(message));
+        console.log('接受的消息：', JSON.stringify(message));
         _this.$store.dispatch('MESSAGE_LIST', message);
         this.responese(cmd, tid)
         break;
@@ -127,9 +128,9 @@ var Websocket = {
   register() {
     var that = this;
     var data = {
-      cmd: 1,
-      enCode: 0,
-      tid: 1212,
+      cmd: 1, //注册
+      enCode: 0, //加密方式
+      tid: 1212, //事物id
       data: {
         "version": 1,
         "termType": 8,
@@ -152,14 +153,14 @@ var Websocket = {
     this.index++;
     try {
       var params = {
-          "cmd": 9,
-          "enCode": 0,
-          "tid": this.index,
-          "data": {
-            "msg": JSON.stringify(data)
-          }
+        "cmd": 9,
+        "enCode": 0,
+        "tid": this.index,
+        "data": {
+          "msg": JSON.stringify(data)
         }
-        // console.log('发送的消息', JSON.stringify(data))
+      }
+      console.log('发送的消息', JSON.stringify(data))
       Websocket.socket.send(JSON.stringify(params));
       _this.$store.dispatch('MESSAGE_LIST', data)
     } catch (e) {

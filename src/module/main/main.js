@@ -9,6 +9,7 @@ import messageContent from '../../components/main/index/messageContent';
 import manage from '../../components/main/manage/manage';
 import detaile from '../../components/main/model/noticeDetaile';
 import app from '../../components/main/index/app';
+
 // import modal from 'vue-bootstrap-modal';
 import {
   filters

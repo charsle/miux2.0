@@ -253,7 +253,7 @@
 				if (isJoin == 0) {
 					layer.confirm('您确定要加入<strong class="light-blue">' + name + '</strong>频组吗?', {
 						btn: ['确定', '取消'],
-						skin: 'layui-layer-molv'
+						skin: ''
 					}, () => {
 						gloabl.fethAsync([URL.INVITED_JOIN_URL], 'TM00201=' + sid, res => {
 							if (res.success) {
@@ -275,7 +275,7 @@
 					shade: 0.3,
 					title: '创建公开频道',
 					area: ['500px'],
-					skin: 'layui-layer-molv',
+					skin: '',
 					content: $('#createPubGroup'),
 				});
 			},
@@ -289,7 +289,7 @@
 				var word = type == 1 ? '同意' : '拒绝'
 				layer.confirm('您确定要' + word + '加入<strong class="light-blue">' + name + '</strong>群组吗?', {
 					btn: ['确定', '取消'],
-					skin: 'layui-layer-molv'
+					skin: ''
 				}, () => {
 					gloabl.fethAsync([URL.CANCLE_AND_REFUSE_URL], 'TM00501=' + sid + '&TM00505=' + type, res => {
 						if (res.success) {
@@ -322,7 +322,7 @@
 					shade: 0.3,
 					title: '创建私密群组',
 					area: ['500px'],
-					skin: 'layui-layer-molv',
+					skin: '',
 					content: $('#createGroup'),
 				})
 			}

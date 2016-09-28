@@ -64,10 +64,12 @@
 <script type="text/javascript">
   import gloabl from '../../api/globConfig'
   require('../../assets/js/uploadType')
+  var NProgress = require('nprogress');
   import '../../assets/css/login.css'
   import systemConfig from '../../api/systemConfig'
   import imageCode from './../../components/login/imageCode'
   import * as URL from '../../api/restfull'
+
   export default {
     data() {
       return {
@@ -116,7 +118,9 @@
        * 获取cookie
        */
       getGaobleCookie() {
-        gloabl.fethAsync([URL.GET_COOKIE_URL]);
+        gloabl.fethAsync(URL.GET_COOKIE_URL, '', (res) => {
+
+        });
       },
       /**
        * 点击下载文档和app
@@ -170,6 +174,7 @@
        * auto_key {String}  自动登录key值
        */
       valideLogin(loop, auto_key) {
+        NProgress.start();
         var self = this,
           param = '',
           loop = loop ? loop : false;
@@ -191,6 +196,7 @@
             gloabl.setCookie('allUserInfo', JSON.stringify(res.result));
             // return;
             location.href = 'main.html';
+            NProgress.done();
           } else {
             var code = res.error;
             if (res.result == 'PIC_CODE') {

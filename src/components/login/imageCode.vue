@@ -1,7 +1,8 @@
 <template>
 	<div class="col-xs-6" id="imageCode">
 		<div class="col-xs-7">
-			<input type="text" v-model="login_code" id="login_code" name="login_code" @keyup="getValue" placeholder="请输入验证码" class="form-control code_edit" />
+			<input type="text" v-model="login_code" id="login_code" name="login_code" @keyup="getValue" placeholder="请输入验证码" class="form-control code_edit"
+			/>
 		</div>
 		<div class="col-xs-5 ESWFW001Code">
 			<img :src="img_url" @click="changeCode($event)">

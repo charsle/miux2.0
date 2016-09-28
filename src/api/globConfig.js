@@ -70,9 +70,9 @@ function doResizeHeight() {
 
 
   $('.HOME_SLIDER,#HOME_CONTENT').css({
-      height: winHeight,
-    })
-    //右侧框
+    height: winHeight,
+  })
+  //右侧框
   $('.COMMENT_MODAL').css({
     height: winHeight - commHeight
   });
@@ -87,9 +87,9 @@ function doResizeHeight() {
 
   //通讯录  //星标收藏
   $('#book_box,#star_allPeo').css({
-      height: winHeight - (commHeight + modalH1height + 60)
-    })
-    //文档库
+    height: winHeight - (commHeight + modalH1height + 60)
+  })
+  //文档库
   $('#doc_content,#groupFiles').css({
     height: winHeight - (commHeight + modalH1height + 70)
   });
@@ -124,9 +124,9 @@ function doResizeHeight() {
   });
   //文档详情
   $('#docDetaile').css({
-      height: winHeight - (commHeight + modalH1height + 110)
-    })
-    //公共详情
+    height: winHeight - (commHeight + modalH1height + 110)
+  })
+  //公共详情
   $('#noticeDetaile').css({
     'height': winHeight - commHeight
   });
@@ -141,11 +141,11 @@ function doResizeHeight() {
     cursorcolor: "#000"
   });
 
-  $('h1>span').click(function() {
+  $('h1>span').click(function () {
     $(this).closest('#COMMENT_MODAL').hide();
     $('#messageCount').width($('#HOME_CONTENT').width());
   });
-  window.onresize = function() {
+  window.onresize = function () {
 
     doResizeHeight();
     doResizeWidth();
@@ -393,8 +393,8 @@ function createThumbnail(type, key, token, width, height, quality, callback) {
       "Authorization": token
     },
     body: param
-  }).then(function(respones) {
-    respones.json().then(function(res) {
+  }).then(function (respones) {
+    respones.json().then(function (res) {
       callback(res);
     })
   })
@@ -484,7 +484,7 @@ function notify(data, v_this) {
     return;
   }
   if (Notification.permission === 'default') {
-    Notification.requestPermission(function() {
+    Notification.requestPermission(function () {
       notify(data);
     });
   } else if (Notification.permission === 'granted') {
@@ -500,7 +500,7 @@ function notify(data, v_this) {
       icon: data.MSG00110 ? data.MSG00110 : '../../static/images/people.png',
       'tag': 'unique string'
     });
-    n.onclick = function() {
+    n.onclick = function () {
       v_this.$route.router.go({
         name: 'message',
         params: {
@@ -510,7 +510,7 @@ function notify(data, v_this) {
         }
       })
     };
-    n.onclose = function() {
+    n.onclose = function () {
       this.close();
       console.log('Notification closed');
     };
@@ -536,6 +536,8 @@ function judgeType(type, msg) {
     str = '[团队公告]';
   } else if (type == 11) {
     str = '[团队投票]';
+  } else if (type == 13) {
+    str = '[该消息已撤回]';
   } else {
     str = msg
   }
@@ -561,8 +563,8 @@ function chooseNavigator() {
   var ua = navigator.userAgent.toLowerCase();
   window.ActiveXObject ? Sys.ie = ua.match(/msie ([\d.]+)/)[1] : document.getBoxObjectFor ? Sys.firefox = ua.match(/firefox\/([\d.]+)/)[1] :
     window.MessageEvent && !document.getBoxObjectFor ? Sys.chrome = ua.match(/chrome\/([\d.]+)/)[1] :
-    window.opera ? Sys.opera = ua.match(/opera.([\d.]+)/)[1] :
-    window.openDatabase ? Sys.safari = ua.match(/version\/([\d.]+)/)[1] : 0;
+      window.opera ? Sys.opera = ua.match(/opera.([\d.]+)/)[1] :
+        window.openDatabase ? Sys.safari = ua.match(/version\/([\d.]+)/)[1] : 0;
 
   return Sys;
 }
@@ -580,7 +582,6 @@ function tipTools() {
     });
   }
 }
-
 function searchGroup(obj, type) {
   fethAsync([URL.SEARCH_GROUP_URL], '', res => {
     if (res.success) {
