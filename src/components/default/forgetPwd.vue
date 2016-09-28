@@ -19,7 +19,7 @@
 					</div>
 				</div>
 				<div class="col-md-12 ESWFW066BottomLine mt20">
-					<button class="ESWFW066Submit" type="button" @click="getCode" :style="{background:  BASE_URL_CONFIG.COMMON_BASE.COLOR}">获取验证码</button>
+					<button class="ESWFW066Submit" type="button" @click="getCode" :style="{background:BASE_URL_CONFIG.COMMON_BASE.COLOR}">获取验证码</button>
 				</div>
 			</div>
 		</form>
@@ -64,7 +64,7 @@
 			},
 			dialogTip() {
 				var self = this;
-				gloabl.layer.open({
+				layer.open({
 					type: 0,
 					title: '系统信息',
 					skin: '',
@@ -87,8 +87,8 @@
 				var params = 'UMT01=3&UM0103=' + this.user_tel + '&UMT04=' + code;
 				gloabl.fethAsync([URL.VALIDE_PHONE_COLDE_URL], params, res => {
 					if (res.success) {
-						gloabl.layer.closeAll();
-						setCookie('settingmobile', this.user_tel);
+						layer.closeAll();
+						gloabl.setCookie('settingmobile', this.user_tel);
 						this.$router.go('/spassword');
 					} else {
 						gloabl.tipTools(res.msg, '#user_tel_code');
@@ -101,17 +101,17 @@
 
 			getCode: function() {
 				var self = this;
-				if (!mobileReg.test(this.user_tel)) {
-					tipTools('手机号码输入不合法,请重新输入', '#user_tel');
+				if (!gloabl.mobileReg.test(this.user_tel)) {
+					gloabl.tipTools('手机号码输入不合法,请重新输入', '#user_tel');
 					return;
 				}
 				if (this.user_code == '') {
-					tipTools('验证码不能为空', '[name="user_code"]');
+					gloabl.tipTools('验证码不能为空', '[name="user_code"]');
 					return;
 				} else {
 					//验证验证码是否成功、
 					var params = 'UMT02=2&UMT03=' + this.user_code;
-					fethAsync([URL.VALIDE_PHONE_BOOLEAR_URL], params, res => {
+					gloabl.fethAsync([URL.VALIDE_PHONE_BOOLEAR_URL], params, res => {
 						if (res.success) {
 							this.getSMSMessage()
 						} else {
@@ -119,13 +119,13 @@
 							this.changeCode();
 							switch (error_code) {
 								case '6001':
-									tipTools(res.msg, '[name="user_code"]');
+									gloabl.tipTools(res.msg, '[name="user_code"]');
 									break;
 								case '1001':
-									tipTools(res.msg, '#user_tel');
+									gloabl.tipTools(res.msg, '#user_tel');
 									break;
 								default:
-									tipTools(res.msg);
+									gloabl.tipTools(res.msg);
 									break;
 							}
 						}

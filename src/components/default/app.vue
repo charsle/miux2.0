@@ -1,6 +1,6 @@
 <template id="">
   <div id="MIUX">
-    <div class="ESWFW066Left" id="ESWFW066Left" :style="{background:BASE_URL_CONFIG.COMMON_BASE.ISLEFTLOGO==false?'#34B6E7':baseConfig.BASE_URL_CONFIG.COMMON_BASE.BACKGROUND}">
+    <div class="ESWFW066Left" id="ESWFW066Left" :style="{background:BASE_URL_CONFIG.COMMON_BASE.ISLEFTLOGO==false?'#34B6E7':BASE_URL_CONFIG.COMMON_BASE.BACKGROUND}">
       <div class="ESWFW066Logo" v-if="BASE_URL_CONFIG.COMMON_BASE.ISLEFTLOGO">
         <a href="index.html"><img :src="BASE_URL_CONFIG.COMMON_BASE.LOGO" /></a>
       </div>

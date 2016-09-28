@@ -35,7 +35,7 @@
 						gloabl.tipTools(res.msg);
 						gloabl.sendTime(e);
 					} else {
-						tipTools(res.msg, '[name="userMobile"]')
+						gloabl.tipTools(res.msg, '[name="userMobile"]')
 						return;
 					}
 

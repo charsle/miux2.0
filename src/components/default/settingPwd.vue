@@ -46,11 +46,11 @@
 					return;
 				}
 				var params = 'UMT02=&UM0103=' + this.mobile + '&UM0115=' + this.sureSetPwd;
-				fethAsync(RESET_PASSWORD_URL, params, res => {
+				gloabl.fethAsync(URL.RESET_PASSWORD_URL, params, res => {
 					if (res.success) {
 						gloabl.delCookie('settingmobile');
 						location.href = './index.html';
-						tipTools('修改成功');
+						gloabl.tipTools('修改成功');
 					} else {
 						gloabl.tipTools('修改失败，请重新设置密码');
 						this.$router.go('/fpassword');

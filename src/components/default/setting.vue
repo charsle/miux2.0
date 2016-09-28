@@ -36,7 +36,7 @@
 				createPwd: '',
 				repeatPwd: '',
 				mobile: '',
-				BASE_URL_CONFIG: baseConfig
+				BASE_URL_CONFIG: systemConfig
 			}
 		},
 		ready() {
@@ -60,7 +60,7 @@
 			},
 			register() {
 				let params = 'UM0115=' + this.createPwd + '&UM0103=' + this.mobile;
-				fethAsync([URL.IS_REGISTER_URL], params, res => {
+				gloabl.fethAsync([URL.IS_REGISTER_URL], params, res => {
 					if (res.success) {
 						gloabl.setCookie('allUserInfo', JSON.stringify(res.result));
 						location.href = 'main.html';
