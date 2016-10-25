@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.root {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+  background: url(../images/cloud/bg.png) no-repeat;
+  background-size: 100% 100%;
+}
+
+.root img {
+  max-width: 100%;
+}
+
+.donwload-btn {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 20%;
+}
+
+.donwload-btn a {
+  display: block;
+  width: 80%;
+  margin: 30px auto;
+  background: #317acc;
+  padding: 10px 0;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  box-shadow: 0px 0px 3px #4498f4;
+}
