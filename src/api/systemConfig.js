@@ -1,6 +1,21 @@
 //在下面配置好放入common_base里面
 var BASE_URL_CONFIG = {
   COMMON_BASE: {
+    BACKGROUND: '#073d93',
+    LOGO: '../static/images/cloud/logo.png',
+    TEXTCOLOR: '#fff',
+    COLOR: '#2569b4',
+    ISTITLE: true,
+    ISTITLELOGO: '../static/images/cloud/logo.png',
+    TITLE: '',
+    FOOTERBACKGROUND: '../static//images/cloud/bg.png',
+    ISLEFTLOGO: false,
+    ISYUN: true,
+    ISLEFTBACKGROUND: '#073d93',
+    ISLEFTIMAGE: '../static/images/cloud/bg.png',
+    LEFTLOGO: '../static/images/cloud/logo.png',
+    DIALOGSKIN: '',
+    //
     // BACKGROUND: '#fff',
     // LOGO: '../static/images/copticmm/logo.png',
     // TEXTCOLOR: '#34B6E7',
@@ -10,25 +25,22 @@ var BASE_URL_CONFIG = {
     // TITLE: '',
     // FOOTERBACKGROUND: '../static//images/copticmm/home_slogen.png',
     // ISLEFTLOGO: false,
+    // ISLEFTBACKGROUND: '#34B6E7',
+    // ISLEFTIMAGE: '../static/images/copticmm/pic-1.png',
     // LEFTLOGO: '../static/images/copticmm/left_logo.png',
     // DIALOGSKIN: '',
-    //
-    //
-    //
-    //
-    //
-    //
-    BACKGROUND: '#00706b url(../static/images/ESWFW066LoginBac.png) center center no-repeat',
-    LOGO: '../static/images/ESWFW066Logo.png',
-    TEXTCOLOR: '#FFF',
-    COLOR: '#09a4a0',
-    ISTITLE: true,
-    ISTITLELOGO: '../static/images/ESWFW066electricityName.png',
-    TITLE: '奉献清洁能源   共建和谐社会',
-    FOOTERBACKGROUND: '',
-    ISLEFTLOGO: true,
-    LEFTLOGO: '',
-    DIALOGSKIN: 'layui-layer-molv',
+
+    // BACKGROUND: '#00706b url(../static/images/ESWFW066LoginBac.png) center center no-repeat',
+    // LOGO: '../static/images/ESWFW066Logo.png',
+    // TEXTCOLOR: '#FFF',
+    // COLOR: '#09a4a0',
+    // ISTITLE: true,
+    // ISTITLELOGO: '../static/images/ESWFW066electricityName.png',
+    // TITLE: '奉献清洁能源   共建和谐社会',
+    // FOOTERBACKGROUND: '',
+    // ISLEFTLOGO: true,
+    // LEFTLOGO: '',
+    // DIALOGSKIN: 'layui-layer-molv',
   },
   DIAN_LI: {
     BACKGROUND: '#00706b url(../static/images/ESWFW066LoginBac.png) center center no-repeat',
@@ -36,11 +48,14 @@ var BASE_URL_CONFIG = {
     TEXTCOLOR: '#FFF',
     COLOR: '#09a4a0',
     ISTITLE: true,
+    ISYUN: false,
     ISTITLELOGO: '../static/images/ESWFW066electricityName.png',
     TITLE: '奉献清洁能源   共建和谐社会',
     FOOTERBACKGROUND: '',
     ISLEFTLOGO: true,
     LEFTLOGO: '',
+    ISLEFTBACKGROUND: '#00706b',
+    ISLEFTIMAGE: '',
     DIALOGSKIN: 'layui-layer-molv',
   },
   SHI_JI_ZHI_GUANG: {
@@ -51,10 +66,30 @@ var BASE_URL_CONFIG = {
     ISTITLE: true,
     ISTITLELOGO: '../static/images/copticmm/logo.png',
     TITLE: '',
+    ISYUN: false,
     FOOTERBACKGROUND: '../static//images/copticmm/home_slogen.png',
     ISLEFTLOGO: false,
+    ISLEFTBACKGROUND: '#34B6E7',
+    ISLEFTIMAGE: '../static/images/copticmm/pic-1.png',
     LEFTLOGO: '../static/images/copticmm/left_logo.png',
     DIALOGSKIN: '',
+  },
+  YUN_CLOUD: {
+    BACKGROUND: '#073d93',
+    LOGO: '../static/images/cloud/logo.png',
+    TEXTCOLOR: '#fff',
+    COLOR: '#2569b4',
+    ISTITLE: true,
+    ISTITLELOGO: '../static/images/cloud/logo.png',
+    TITLE: '',
+    ISYUN: true,
+    FOOTERBACKGROUND: '../static//images/cloud/bg.png',
+    ISLEFTLOGO: false,
+    ISLEFTBACKGROUND: '#073d93',
+    ISLEFTIMAGE: '../static/images/cloud/bg.png',
+    LEFTLOGO: '../static/images/cloud/logo.png',
+    DIALOGSKIN: '',
+
   }
 }
 
