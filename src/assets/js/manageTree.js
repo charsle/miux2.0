@@ -10,7 +10,8 @@ var ManageTree = {
   init: function(data, v_this) {
     var _this = this;
     vm_this = v_this;
-    RightMenu.getRightManageList(data.id, vm_this);
+    // console.log(data.id);
+    // RightMenu.getRightManageList(data.id, vm_this);
     //树的整体配置
     var setting = {
       view: {
@@ -61,7 +62,7 @@ var ManageTree = {
     zTreeDoc.expandNode(treeNode);
     //ajax获取数据
     var orgSid = nodes[0].id;
-    //	console.log(vm_this+'===');
+
     RightMenu.getRightManageList(orgSid, vm_this);
   },
 
@@ -136,13 +137,13 @@ var ManageTree = {
       skin: '',
       yes: function() {
         var params = 'TM00101=' + nodes[0].id;
-        fethAsync([URL.DETELE_DEPARTMENT_URL], params, res => {
+        gloabl.fethAsync([URL.DETELE_DEPARTMENT_URL], params, res => {
           if (res.success) {
             zTreeDoc.removeNode(nodes[0]);
             gloabl.layer.close(win);
-            tipTools('删除成功');
+            gloabl.tipTools('删除成功');
           } else {
-            tipTools('删除失败');
+            gloabl.tipTools('删除失败');
           }
         });
       }
@@ -269,12 +270,12 @@ var RightMenu = {
     }
     return level;
   },
-  getRightManageList: function(id, vm_this) {
+  getRightManageList: function(id, _this) {
     var lay = layer.load(2);
     var param = 'TM00101=' + id;
     gloabl.fethAsync([URL.SEARCH_ONE_DPART_URL], param, res => {
       if (res.success) {
-        vm_this.$store.dispatch('MANAGE_LIST', res.result);
+        _this.$store.dispatch('MANAGE_LIST', res.result);
         layer.close(lay);
       }
     });
