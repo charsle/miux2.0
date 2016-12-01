@@ -42,7 +42,7 @@
 			</div>
 		</div>
 		<div id="groupListBar" class="col-md-12">
-			<div class="col-xs-12 pb10 bottom">
+			<div class="col-xs-11 pb10 bottom">
 				<div class="row">
 					<div class="col-xs-11 fs16 bold dark-gray lh40 ">
 						频道公告
@@ -63,7 +63,7 @@
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<div class="col-xs-12">
+			<div class="col-xs-11">
 				<h4 class="fs16 bold dark-gray lh40">频道功能</h4>
 				<ul class="bookItem mt5 pb10 bookHover group_function">
 					<li @click="currentRightTag('grop_item',groupInfo) " v-if="groupInfo.manager==1">
@@ -87,7 +87,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xs-12 disturbing_tip light-grey h20 ">（您可以在“设置－推送设置”中进行“频组推送设置”
+						<div class="col-xs-12 fs12 light-grey ">（您可以在“设置－推送设置”中进行“频组推送设置”
 							<div class="clearfix "></div>
 						</div>
 						<div class="clearfix "></div>
@@ -101,7 +101,7 @@
 				</ul>
 			</div>
 
-			<div class="col-xs-12 pb10 ">
+			<div class="col-xs-11 pb10 ">
 				<h4 class="p10 "><span class="fs14 bold ">成员列表</span>&nbsp;&nbsp;&nbsp;
 					<span class="light-grey fs14 ">{{getGroupList.onlinePersonNum}}/{{groupInfo.personNum}}</span>
 					<a href="javascript:;" @click="addSecretGroup" class="fr" v-if="groupInfo.TM00209==1&&groupInfo.manager==1"><i class="iconfont light-blue">&#xe62c;</i></a>

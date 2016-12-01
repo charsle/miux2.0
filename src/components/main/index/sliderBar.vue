@@ -208,7 +208,7 @@
 						gloabl.layer.open({
 							type: 1,
 							title: '事项详情',
-							area: ['600px', '250px'],
+							area: ['600px'],
 							skin: '',
 							btn: ['确定'],
 							content: $('#showDetaile'),

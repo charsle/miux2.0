@@ -1,109 +1,128 @@
 <script type="text/javascript">
-	import '../../../assets/css/main.css'
-	import store from '../../../vuex/store';
-	import {
-		currentThread
-	} from '../../../vuex/getters';
-	import comparyCard from './comparyCard';
-	import sliderBar from './sliderBar';
-	import headerBar from './headerBar';
-	import about from '../model/about';
-	import doc from '../model/document';
-	import task from '../model/task';
-	import books from '../model/book';
-	import perSetting from '../model/perSetting';
-	import perInfo from '../model/perInfo';
-	import star from '../model/star';
-	import docDetaile from '../model/docDetaile';
-	import starDetaile from '../model/starDetaile';
-	import card from '../model/card';
-	import group from '../model/group';
-	import groupNotice from '../model/groupNotice';
-	import groupFile from '../model/groupFile';
-	import ada from '../model/adacard';
-	import fileModel from '../model/fileModel';
-	import load from '../../loading/loading';
-	import gloabl from '../../../api/globConfig'
-	import 'nprogress/nprogress.css'
-	var NProgress = require('nprogress');
-	export default {
-		data() {
-			return {
-				currentView: 'message',
-				currentRight: '',
-				sessionList: '',
-				search: '',
-				sessionIndex: 0,
-				is_show: '',
-				numberP: 0
-			}
-		}, //初始化
-		store,
-		ready() {
-			NProgress.start();
-			$('#miuxApp').hide()
-			if (sessionStorage.getItem('loading') == null) {
-				sessionStorage.setItem('loading', 'loading')
-				NProgress.configure({
-					trickleRate: 0.1,
-					trickleSpeed: 400
-				});
-				setTimeout(() => {
-					$('#miuxApp').show()
-					$('#loadMIUX').hide();
-					NProgress.done();
-				}, 4000)
-			} else {
-				$('#loadMIUX').hide();
-				$('#miuxApp').show()
-				NProgress.done();
-			}
-			gloabl.doResizeHeight();
-			gloabl.doResizeWidth();
-		},
+    import 'bootstrap/dist/css/bootstrap.min.css'
+    import '../../../assets/css/reset.css';
+    import '../../../assets/css/iconfont.css';
+    import '../../../assets/css/font1/iconfont.css';
+    import '../../../../static/lib/layer/skin/layer.css'
+    import 'lightbox2/dist/css/lightbox.css'
+    require('lightbox2');
+    import 'bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css'
+    require('bootstrap-switch');
 
-		watch: {
-			pressNum: {
-				handler() {
-					console.log(this.pressNum);
-					this.numberP = this.pressNum;
-				}
-			}
-		},
-		vuex: {
-			getters: {
-				current(state) {
-					return state.currentRight
-				},
-				pressNum(state) {
-					return state.pressBar
-				}
-			}
-		},
-		components: {
-			comparyCard,
-			sliderBar,
-			headerBar,
-			books,
-			about,
-			doc,
-			task,
-			setting: perSetting,
-			star,
-			pinfo: perInfo,
-			d_detaile: docDetaile,
-			card,
-			group,
-			s_detaile: starDetaile,
-			card,
-			grop_item: groupNotice,
-			grop_file: groupFile,
-			ada,
-			fileModel,
-			load
-		}
+    require('bootstrap');
+    require('jquery.nicescroll/jquery.nicescroll.min');
+    require('../../../assets/js/uploadType');
 
-	}
+    import '../../../assets/css/main.css'
+    import store from '../../../vuex/store';
+    import {
+        currentThread
+    } from '../../../vuex/getters';
+    import comparyCard from './comparyCard';
+    import sliderBar from './sliderBar';
+    import headerBar from './headerBar';
+    import about from '../model/about';
+    import doc from '../model/document';
+    import task from '../model/task';
+    import books from '../model/book';
+    import perSetting from '../model/perSetting';
+    import perInfo from '../model/perInfo';
+    import star from '../model/star';
+    import docDetaile from '../model/docDetaile';
+    import apply from '../model/apply';
+    import starDetaile from '../model/starDetaile';
+    import card from '../model/card';
+    import group from '../model/group';
+    import groupNotice from '../model/groupNotice';
+    import groupFile from '../model/groupFile';
+    import ada from '../model/adacard';
+    import fileModel from '../model/fileModel';
+    import load from '../../loading/loading';
+    import gloabl from '../../../api/globConfig'
+    import 'nprogress/nprogress.css'
+    var NProgress = require('nprogress');
+    import systemConfig from '../../../api/systemConfig'
+    export default {
+        data() {
+            return {
+                currentView: 'message',
+                currentRight: '',
+                sessionList: '',
+                search: '',
+                sessionIndex: 0,
+                is_show: '',
+                numberP: 0,
+                BASE_URL_CONFIG: systemConfig, //全局配置logo,
+            }
+        }, //初始化
+        store,
+        ready() {
+            document.title = this.BASE_URL_CONFIG.COMMON_BASE.TITLETEXT;
+            NProgress.start();
+            $('#miuxApp').hide()
+            if (sessionStorage.getItem('loading') == null) {
+                sessionStorage.setItem('loading', 'loading')
+                NProgress.configure({
+                    trickleRate: 0.1,
+                    trickleSpeed: 400
+                });
+                setTimeout(() => {
+                    $('#miuxApp').show()
+                    $('#loadMIUX').hide();
+                    NProgress.done();
+                }, 4000)
+            } else {
+                $('#loadMIUX').hide();
+                $('#miuxApp').show()
+                NProgress.done();
+            }
+            gloabl.doResizeHeight();
+            gloabl.doResizeWidth();
+        },
+
+        watch: {
+            pressNum: {
+                handler() {
+                    console.log(this.pressNum);
+                    this.numberP = this.pressNum;
+                }
+            }
+        },
+        vuex: {
+            getters: {
+                current(state) {
+                    return state.currentRight
+                },
+                pressNum(state) {
+                    return state.pressBar
+                }
+            }
+        },
+        components: {
+            comparyCard,
+            sliderBar,
+            headerBar,
+            books,
+            about,
+            doc,
+            task,
+            setting: perSetting,
+            star,
+            pinfo: perInfo,
+            d_detaile: docDetaile,
+            card,
+            group,
+            s_detaile: starDetaile,
+            card,
+            grop_item: groupNotice,
+            grop_file: groupFile,
+            ada,
+            fileModel,
+            load,
+            apply
+        }
+
+    }
 </script>
 
 <template>
@@ -178,27 +197,27 @@
 	</div>
 </template>
 <style type="text/css">
-	div#rMenu {
-		position: absolute;
-		visibility: hidden;
-		top: 0;
-		background-color: #555;
-		text-align: left;
-		padding: 2px;
-		border-radius: 5px;
-	}
-
-	div#rMenu ul li {
-		margin: 1px 0;
-		padding: 5px;
-		border-radius: 5px;
-		cursor: pointer;
-		list-style: none outside none;
-		color: #fff;
-	}
-
-	div#rMenu ul li:hover {
-		background-color: #DFDFDF;
-		color: #555;
-	}
+    div#rMenu {
+        position: absolute;
+        visibility: hidden;
+        top: 0;
+        background-color: #555;
+        text-align: left;
+        padding: 2px;
+        border-radius: 5px;
+    }
+    
+    div#rMenu ul li {
+        margin: 1px 0;
+        padding: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        list-style: none outside none;
+        color: #fff;
+    }
+    
+    div#rMenu ul li:hover {
+        background-color: #DFDFDF;
+        color: #555;
+    }
 </style>

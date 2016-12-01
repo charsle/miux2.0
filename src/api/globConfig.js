@@ -1,19 +1,8 @@
 /**
  * 全局配置样式和公共插件
  */
-import 'bootstrap/dist/css/bootstrap.min.css'
-import '../assets/css/reset.css';
-import '../assets/css/iconfont.css';
-import '../../static/lib/layer/skin/layer.css'
-import 'lightbox2/dist/css/lightbox.css'
-require('lightbox2');
-import 'bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css'
-require('bootstrap-switch');
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
-require('bootstrap');
-require('jquery.nicescroll/jquery.nicescroll.min');
-require('../assets/js/uploadType');
 // import perfectScrollbar from 'perfect-scrollbar';
 import layer from '../../static/lib/layer/layer.js'
 import * as URL from './restfull';
@@ -41,6 +30,7 @@ function commonGloabl() {
 }
 
 function doResizeHeight() {
+
   //整体html的高度
   var winHeight = document.documentElement.clientHeight || document.body.clientHeight;
   //整体html的宽度
@@ -66,13 +56,10 @@ function doResizeHeight() {
   $('#m-message').css({
     height: contentHeight
   })
-
-
-
   $('.HOME_SLIDER,#HOME_CONTENT').css({
-    height: winHeight,
-  })
-  //右侧框
+      height: winHeight,
+    })
+    //右侧框
   $('.COMMENT_MODAL').css({
     height: winHeight - commHeight
   });
@@ -83,13 +70,14 @@ function doResizeHeight() {
   $('#slid_bars').niceScroll({
     cursorcolor: "#000",
     cursorborder: "1px solid #464f5d",
+    oneaxismousemode: false
   });
 
   //通讯录  //星标收藏
   $('#book_box,#star_allPeo').css({
-    height: winHeight - (commHeight + modalH1height + 60)
-  })
-  //文档库
+      height: winHeight - (commHeight + modalH1height + 60)
+    })
+    //文档库
   $('#doc_content,#groupFiles').css({
     height: winHeight - (commHeight + modalH1height + 70)
   });
@@ -115,6 +103,7 @@ function doResizeHeight() {
   $('#showTableHeight').css({
     height: winHeight - (commHeight + 100)
   });
+
   //日志管理
   $('#manage_log').css({
     height: winHeight - (commHeight + 140)
@@ -124,9 +113,9 @@ function doResizeHeight() {
   });
   //文档详情
   $('#docDetaile').css({
-    height: winHeight - (commHeight + modalH1height + 110)
-  })
-  //公共详情
+      height: winHeight - (commHeight + modalH1height + 110)
+    })
+    //公共详情
   $('#noticeDetaile').css({
     'height': winHeight - commHeight
   });
@@ -138,14 +127,15 @@ function doResizeHeight() {
     height: winHeight - (commHeight + modalH1height + 10)
   })
   $('#person_layer,#perSetting,#m-message,#book_box,#doc_content,#taskList,#selfMessage,#star_allPeo,#manage_wrapper,#manage_tree,#showTableHeight,#manage_log,#groupListBar,#docDetaile,#groupFiles,#noticeDetaile').niceScroll({
-    cursorcolor: "#000"
+    cursorcolor: "#000",
+    oneaxismousemode: false
   });
 
-  $('h1>span').click(function () {
+  $('h1>span').click(function() {
     $(this).closest('#COMMENT_MODAL').hide();
     $('#messageCount').width($('#HOME_CONTENT').width());
   });
-  window.onresize = function () {
+  window.onresize = function() {
 
     doResizeHeight();
     doResizeWidth();
@@ -295,7 +285,18 @@ function loginOut() {
       delCookie('userMobile');
       delCookie('slingeGroupInfo');
       delCookie('typeScrool');
-      location.href = 'index.html';
+      delCookie('chooseTeam');
+
+      var index = sessionStorage.getItem('admin');
+      if (index == 1) {
+        location.href = 'admin.html';
+        sessionStorage.removeItem("admin");
+
+      } else {
+        location.href = 'index.html';
+      }
+      delCookie('admin');
+
     } else {
       tipTools(res.msg);
     }
@@ -338,19 +339,20 @@ function getFileDownToken(key, type, callback) {
  */
 function getFileDownKey(key, suffix) {
   var url = [URL.URL_DOWNLOAD_KEY] + key + '.' + suffix;
-  new FileDownloader({
-    url: url,
-    filename: key + '.' + suffix
-  });
-  // var a = document.createElement('a');
-  // a.setAttribute('href', url);
-  // a.setAttribute('target', '_blank');
-  // a.setAttribute('id', 'downid');
-  // //防止反复添加
-  // if (!document.getElementById('downid')) {
-  //   document.body.appendChild(a);
-  // }
-  // a.click();
+  // console.log(url)
+  // new FileDownloader({
+  //   url: url,
+  //   filename: key + '.' + suffix
+  // });
+  var a = document.createElement('a');
+  a.setAttribute('href', url);
+  a.setAttribute('target', '_blank');
+  a.setAttribute('id', 'downid');
+  //防止反复添加
+  if (!document.getElementById('downid')) {
+    document.body.appendChild(a);
+  }
+  a.click();
 }
 /**
  * 获取上传凭证token
@@ -393,8 +395,8 @@ function createThumbnail(type, key, token, width, height, quality, callback) {
       "Authorization": token
     },
     body: param
-  }).then(function (respones) {
-    respones.json().then(function (res) {
+  }).then(function(respones) {
+    respones.json().then(function(res) {
       callback(res);
     })
   })
@@ -484,7 +486,7 @@ function notify(data, v_this) {
     return;
   }
   if (Notification.permission === 'default') {
-    Notification.requestPermission(function () {
+    Notification.requestPermission(function() {
       notify(data);
     });
   } else if (Notification.permission === 'granted') {
@@ -500,7 +502,7 @@ function notify(data, v_this) {
       icon: data.MSG00110 ? data.MSG00110 : '../../static/images/people.png',
       'tag': 'unique string'
     });
-    n.onclick = function () {
+    n.onclick = function() {
       v_this.$route.router.go({
         name: 'message',
         params: {
@@ -510,7 +512,7 @@ function notify(data, v_this) {
         }
       })
     };
-    n.onclose = function () {
+    n.onclose = function() {
       this.close();
       console.log('Notification closed');
     };
@@ -524,6 +526,8 @@ function judgeType(type, msg) {
   var str = '';
   if (type == 2) {
     str = '[图片]';
+  } else if (type == 3) {
+    str = '[语音]';
   } else if (type == 4) {
     str = '[位置]';
   } else if (type == 5) {
@@ -563,8 +567,8 @@ function chooseNavigator() {
   var ua = navigator.userAgent.toLowerCase();
   window.ActiveXObject ? Sys.ie = ua.match(/msie ([\d.]+)/)[1] : document.getBoxObjectFor ? Sys.firefox = ua.match(/firefox\/([\d.]+)/)[1] :
     window.MessageEvent && !document.getBoxObjectFor ? Sys.chrome = ua.match(/chrome\/([\d.]+)/)[1] :
-      window.opera ? Sys.opera = ua.match(/opera.([\d.]+)/)[1] :
-        window.openDatabase ? Sys.safari = ua.match(/version\/([\d.]+)/)[1] : 0;
+    window.opera ? Sys.opera = ua.match(/opera.([\d.]+)/)[1] :
+    window.openDatabase ? Sys.safari = ua.match(/version\/([\d.]+)/)[1] : 0;
 
   return Sys;
 }
@@ -582,6 +586,12 @@ function tipTools() {
     });
   }
 }
+/**
+ * 查询频组
+ * @param  {[type]} obj  [vue实例]
+ * @param  {[type]} type [类型]
+ * @return {[type]}      [description]
+ */
 function searchGroup(obj, type) {
   fethAsync([URL.SEARCH_GROUP_URL], '', res => {
     if (res.success) {

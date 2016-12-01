@@ -45,6 +45,7 @@ export default {
     state.messages = obj;
   },
   [types.MANAGE_LIST](state, list) {
+
     state.manageList = list;
   },
   [types.MESSAGE_LIST](state, list) {
@@ -91,5 +92,14 @@ export default {
   },
   [types.ADD_SECRET_GROUP](state, list) {
     state.addSecretGroup = list;
+  },
+  [types.UPLOAD_FILES_RETUEN](state, list) {
+    // console.log(list);
+    state.uploadReturnList = list;
+  },
+  [types.CHOOSE_FILES_ITEM](state, list) {
+    // console.log(list);
+
+    state.chooseFilesItem = list;
   }
 }

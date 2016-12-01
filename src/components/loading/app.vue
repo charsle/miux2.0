@@ -3,23 +3,21 @@
 			<div class="loading_left fl">
 			</div>
 			<div class="loading_right fr">
-				<div class="show_box">
-					<div class="col-xs-4 mt10">
-						<div class="outer"></div>
-						<div style="position: absolute;z-index: 99;width: 95px; height: 95px;top:3px;left:3px; border-radius: 50%; overflow: hidden;">
-							<img :src="userInfo.user.UM0111 | getUrl" /></div>
-					</div>
-					<div class="col-xs-8 fs16">
-						<div class="row fs30 bold" v-text="userInfo.user.UM0102"></div>
-						<div class="row mt10"><span class="light-grey">职位：</span><span v-text="userInfo.user.UM0118"></span></div>
-						<div class="row nowrap overflow"><span class="light-grey">部门：</span><span v-if="userInfo.dept!=null">{{userInfo.dept.TM00106}}</span></div>
-						<div class="row"><span class="light-grey">编号：</span><span v-text="userInfo.user.UM0106"></span></div>
-					</div>
+<!-- <div style="height:300px;overflow:auto;">{{userInfo | json}}</div> -->
+            <div class="col-sm-3" v-for="user in userInfo">
+              <div class="thumbnail">
+                <img :src="user.UM0123" alt="...">
+                <div class="caption">
+                  <h3>{{user.UM0102}}</h3>
+                  <div class="fs16">{{user.UM0116}}</div>
+                  <br />
+                  <p>
+                    <a href="javascript:;" class="btn btn-primary" role="button" @click="enterMain(user)">进入</a>
+                    </p>
+                </div>
+              </div>
+            </div>
 					<div class="clearfix"></div>
-				</div>
-				<div class="footer" v-if="BASE_URL_CONFIG.COMMON_BASE.ISLEFTLOGO==false">
-					<img src="../../../static/images/copticmm/pic-1.png" width="100%" />
-				</div>
 			</div>
 			<div class="clearfix"></div>
 		</div>
@@ -28,16 +26,29 @@
   import '../../assets/css/loading.css'
   import gloabl from '../../api/globConfig'
   import systemConfig from '../../api/systemConfig'
+  import * as URL from '../../api/restfull'
   export default {
-    ready() {
-      setTimeout(() => {
-        location.href = "main.html"
-      }, 2000)
-    },
+
     data() {
       return {
-        userInfo: JSON.parse(gloabl.getCookie('allUserInfo')),
+        // userInfo: JSON.parse(gloabl.getCookie('allUserInfo')),
+        userInfo: JSON.parse(sessionStorage.getItem('allUserInfo')),
         BASE_URL_CONFIG: systemConfig
+      }
+    },
+    methods: {
+      enterMain(user) {
+        var params = 'UM0103=' + user.UM0103 + '&UM0101=' + user.UM0101 + '&UMT99=0';
+        console.log()
+        gloabl.fethAsync(URL.CHOOSE_TEAR_URL, params, res => {
+          if (res.success) {
+            gloabl.setCookie('chooseTeam', JSON.stringify(user));
+            location.href = 'test.html'
+          } else {
+            //gloabl.tipTools(res.msg, '[name="user_code"]');
+            return;
+          }
+        })
       }
     }
   }

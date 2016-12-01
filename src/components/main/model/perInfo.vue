@@ -158,7 +158,7 @@
 						var regEmial = /^[0-9a-z][_.0-9a-z-]{0,31}@([0-9a-z][0-9a-z-]{0,30}[0-9a-z]\.){1,4}[a-z]{2,4}$/
 
 						if (!regEmial.test(this.email) && this.email != '') {
-							tipTools('请输入合法的邮件地址');
+							gloabl.tipTools('请输入合法的邮件地址');
 							return;
 						} else {
 							parmas = 'UM0105=' + this.email;
@@ -170,7 +170,7 @@
 						var phoneReg = /^0[1-9]{2,3}-[1-9]\d{5,7}$/;
 						console.log(!phoneReg.test(this.phone) && this.phone != '');
 						if (!phoneReg.test(this.phone) && this.phone != '') {
-							tipTools('请输入合法的固定电话');
+							gloabl.tipTools('请输入合法的固定电话');
 							return;
 						} else {
 							parmas = 'UM0104=' + this.phone;

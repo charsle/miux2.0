@@ -7,6 +7,7 @@ var Websocket = {
   socket: null,
   userID: '',
   userKyes: '',
+  isFirst: false,
   index: 100,
   gComet() {
     if (userinfo == 'null' || userinfo == undefined) {
@@ -50,8 +51,11 @@ var Websocket = {
   },
   onClose(evt) {
     console.log('Info: websocket断开链接.' + JSON.stringify(evt));
+    Websocket.gComet();
   },
   onMessage(evt) {
+    var data = (JSON.parse(evt.data));
+    // console.log(data);
     this.messageData(evt);
   },
   onError(evt) {
@@ -64,7 +68,7 @@ var Websocket = {
       tid = data.tid;
     switch (cmd) {
       case 2: //注册应答
-        var code = data.data.code;
+        var code = data.code;
         if (code == 0) {
           return;
         } else {
@@ -75,6 +79,7 @@ var Websocket = {
           return;
         }
         break;
+
       case 5: //推送
         var code = JSON.parse(data.data.msg);
         //				console.log(code);
@@ -88,7 +93,7 @@ var Websocket = {
         var message = JSON.parse(data.data.msg);
         message.UM0310 = 0;
         //message.UM0301 = message.MSG00101;
-        console.log('接受的消息：', JSON.stringify(message));
+        // console.log('接受的消息：', JSON.stringify(message));
         _this.$store.dispatch('MESSAGE_LIST', message);
         this.responese(cmd, tid)
         break;
@@ -111,8 +116,9 @@ var Websocket = {
     var data = {
       cmd: cmd,
       tid: tid,
+      code: 0,
       data: {
-        "code": 0,
+
       }
     }
     try {
@@ -128,23 +134,52 @@ var Websocket = {
   register() {
     var that = this;
     var data = {
-      cmd: 1, //注册
-      enCode: 0, //加密方式
-      tid: 1212, //事物id
-      data: {
-        "version": 1,
-        "termType": 8,
-        "id": that.userID,
-        "token": that.userKyes
+        cmd: 1, //注册
+        enCode: 0, //加密方式
+        tid: 1212, //事物id
+        data: {
+          "version": 1,
+          "termType": 8,
+          "id": that.userID,
+          "token": that.userKyes
+        }
       }
-    }
+      //心跳
     try {
+
       setTimeout(function() {
         that.socket.send(JSON.stringify(data));
+        if (Websocket.socket.readyState == 1) {
+          if (Websocket.isFirst) {
+            location.href = 'main.html';
+          }
+        }
       }, 100)
-
+      setInterval(Websocket.heart, 60 * 1000);
     } catch (e) {
       throw e;
+    }
+
+  },
+  //心跳
+  heart() {
+    var data = {
+      cmd: 3, //心跳
+      enCode: 0, //加密方式
+      tid: 1212, //事物id
+      data: {}
+    }
+    if (Websocket.socket.readyState !== 1) {
+      Websocket.socket.close();
+      layer.msg('网络异常，等待重连...', {
+        icon: 16
+      });
+      Websocket.isFirst = true;
+      Websocket.gComet();
+    } else {
+      layer.closeAll();
+      Websocket.isFirst = false;
+      Websocket.socket.send(JSON.stringify(data));
     }
 
   },
@@ -153,15 +188,17 @@ var Websocket = {
     this.index++;
     try {
       var params = {
-        "cmd": 9,
-        "enCode": 0,
-        "tid": this.index,
-        "data": {
-          "msg": JSON.stringify(data)
+          "cmd": 9,
+          "enCode": 0,
+          "tid": this.index,
+          "data": {
+            "msg": JSON.stringify(data)
+          }
         }
-      }
-      console.log('发送的消息', JSON.stringify(data))
+        // console.log('发送的消息', JSON.stringify(data))
       Websocket.socket.send(JSON.stringify(params));
+
+
       _this.$store.dispatch('MESSAGE_LIST', data)
     } catch (e) {
       throw e;

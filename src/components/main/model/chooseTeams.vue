@@ -57,7 +57,7 @@
 			return {
 				choosePerList: [],
 				chooseIndex: [],
-				myuserID: JSON.parse(gloabl.getCookie('allUserInfo')).user.UM0101,
+				myuserID: JSON.parse(gloabl.getCookie('allUserInfo')).user,
 				groupInfo: JSON.parse(gloabl.getCookie('slingeGroupInfo')),
 			}
 		},
@@ -127,6 +127,12 @@
 			},
 			//添加超级管理员喝区域管理员
 			sureChoosePerson() {
+				if (this.choosePerList.length > 100) {
+					gloabl.layer.msg("选择人员不能超过100人！");
+					return;
+				}
+
+
 				if (this.getLayerObject.split(';')[1] == 'manage') {
 					var params = 'TM00301=' + this.chooseIndex.toString();
 					this.addManagePerson([URL.ADD_SUPER_MANAGER_URL], params, (data) => {
@@ -157,7 +163,7 @@
 					this.$store.dispatch('CHOOSE_ALL_PERSON', this.choosePerList);
 					this.$store.dispatch('CHOOSE_ALL_INDEX', this.chooseIndex);
 					this.$store.dispatch('AREA_MANAGE', '');
-					console.log(this.chooseIndex);
+					//	console.log(this.chooseIndex);
 					//this.choosePerList = [];
 					//this.chooseIndex = [];
 				}

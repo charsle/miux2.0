@@ -18,14 +18,28 @@ miux后台管理系统
 
 </template>
 <script type="text/javascript">
+  import 'bootstrap/dist/css/bootstrap.min.css'
+  import '../../assets/css/reset.css';
+  import '../../assets/css/iconfont.css';
+  import '../../../static/lib/layer/skin/layer.css'
+  require('jquery.nicescroll/jquery.nicescroll.min');
+  require('bootstrap');
   import '../../assets/css/main.css'
   import manage from '../main/manage/manage';
   import gloabl from '../../api/globConfig'
+  import systemConfig from '../../api/systemConfig'
   export default {
-
+    data(){
+    return {
+      BASE_URL_CONFIG: systemConfig, //全局配置logo,
+    }
+    },
     components: {
       manage
 
+    },
+    ready(){
+    document.title=this.BASE_URL_CONFIG.COMMON_BASE.TITLETEXT;
     },
     methods: {
       loginout() {

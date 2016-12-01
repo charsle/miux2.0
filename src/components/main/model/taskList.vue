@@ -132,7 +132,7 @@
 						gloabl.layer.open({
 							type: 1,
 							title: '事项详情',
-							area: ['600px', '250px'],
+							area: ['600px'],
 							skin: '',
 							btn: ['确定'],
 							content: $('#seeDetaile'),
@@ -204,7 +204,7 @@
 				gloabl.layer.open({
 					type: 0,
 					title: '系统提示',
-					area: '400',
+					area: ['400px'],
 					skin: '',
 					btn: ['确定', '取消'],
 					content: `确定转移到未完成事项中么？`,

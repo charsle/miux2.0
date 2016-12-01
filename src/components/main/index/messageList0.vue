@@ -6,7 +6,9 @@
 
 					<img class="avatar" :src="teamPic | getUrl" width="40" height="40" v-if="item.UM0302==1">
 					<img class="avatar" :src="item.tx | getUrl" width="40" height="40" v-else>
-					<i style="position: absolute;left: 50px; top: 10px;" v-if="item.UM0310==0"></i>
+					<i style="position: absolute;left: 50px; top: 10px;" v-if="item.UM0310==0">
+<span style="width:10px;height:10px;display:inline-block;background:red;border:2px solid rgba(255,255,255,0.8);border-radius:100%;"></span>
+					</i>
 					<div class="name">
 						<div class="user_name"><span v-text="item.UM0303"></span><span>{{(item.UM0306) | time}}</span>
 						</div>
@@ -95,6 +97,7 @@
 				//deep: true,
 				handler() {
 					var loop = false;
+					console.log(JSON.stringify(this.newMessageList));
 					for (let item of this.messageList) {
 						if (item.UM0302 === this.newMessageList.MSG00102) {
 							if (item.UM0307 == this.newMessageList.MSG00107) {
@@ -168,6 +171,7 @@
 							UM0311: this.newMessageList.MSG00101,
 							tx: docImg
 						}
+						console.log(JSON.stringify(dd));
 						this.messageList.unshift(dd);
 					}
 

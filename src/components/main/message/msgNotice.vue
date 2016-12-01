@@ -10,7 +10,8 @@
 							<h4>{{itemList.MSG00109.title}}</h4>
 							<div class="row lh18 mt10" v-if="itemList.MSG00109.image!=''">
 								<div class="col-xs-3">
-									{{{itemList.MSG00109.image}}}
+
+									<img :src="itemList.MSG00109.image | getUrl" alt="">
 								</div>
 								<div class="col-xs-9 p15 lh25">
 									{{{itemList.MSG00109.contentWord}}}
@@ -139,6 +140,7 @@
 				$(ev.currentTarget).siblings('.fileContent').toggle();
 			},
 			downloadFile(fileKey, type) {
+				console.log(fileKey, type)
 				gloabl.getFileDownKey(fileKey, type);
 			},
 			cancelMessage(item) {

@@ -18,7 +18,6 @@
 </style>
 <script type="text/javascript">
 	import gloabl from '../../../api/globConfig'
-
 	import manageSetting from './manageSetting';
 	import manageMermber from './manageMermber';
 	import manageLog from './manageLog';

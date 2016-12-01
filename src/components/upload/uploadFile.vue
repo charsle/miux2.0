@@ -10,7 +10,7 @@
   import gloabl from '../../api/globConfig'
 
   export default {
-    props: ['type'],
+    props: ['type', 'groupItem'],
     data() {
       return {
         filetType: '',
@@ -21,6 +21,7 @@
       uploadTeamImg() {
         document.getElementById("fileToUpload").click();
         gloabl.searchGroup(this, this.type);
+
       },
       fileSelected(ev) {
         var files = ev.target.files[0],
@@ -51,14 +52,17 @@
             objFile: files
           }
           this.loadDiloag(data);
+
         }
       },
       loadDiloag(data) {
         this.$store.dispatch('SHARE_DOC_DATA', data)
+          // console.log(this.groupItem)
+        this.$store.dispatch('CHOOSE_FILES_ITEM', this.groupItem)
         layer.open({
           type: 1,
           title: '文件上传',
-          area: '400',
+          area: ['400px'],
           skin: '',
           content: $('#fileShareModel')
         });

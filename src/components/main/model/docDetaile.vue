@@ -244,8 +244,9 @@
 					btn: ['确定', '取消'],
 					content: `确定删除该文档吗？`,
 					yes: function() {
+						layer.load(2)
 						self.delDoc();
-						gloabl.layer.closeAll();
+
 					}
 				})
 			},
@@ -254,9 +255,11 @@
 				var params = 'DM00101=' + this.currentId + '&DM00110=' + this.detaileList.DM00110;
 				gloabl.fethAsync([URL.DOC_DEL_URL], params, res => {
 					if (res.success) {
+						gloabl.layer.closeAll();
 						this.$store.dispatch('SWITCH_RIGHT', 'doc')
 						gloabl.tipTools('删除成功')
 					} else {
+						gloabl.layer.closeAll();
 						gloabl.tipTools('删除失败')
 					}
 

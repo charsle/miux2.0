@@ -39,7 +39,7 @@
 						<div class="row mt20">
 							<button class="btn ESWFW001Submit" id="ESWFW001Submit" type="button" :style="{background:BASE_URL_CONFIG.COMMON_BASE.COLOR}" @click="loginSubmit($event)" @keyup.down="loginSubmit($event)">登录</button>
 						</div>
-						<div class="row mt15 fs12">
+						<div class="row mt15 fs12" v-if="!BASE_URL_CONFIG.COMMON_BASE.ISYUN">
 							<a href="default.html#!/register" :style="{color:BASE_URL_CONFIG.COMMON_BASE.TEXTCOLOR}">没有账号？立即注册</a>
 						</div>
 						<div class="clearfix"></div>
@@ -56,13 +56,19 @@
 <style media="screen">
   .downloadHtml {
     position: absolute;
-    right: 10PX;
+    right: 10px;
     top: 0;
   }
 </style>
 
 <script type="text/javascript">
+  import 'bootstrap/dist/css/bootstrap.min.css'
+  import '../../assets/css/reset.css';
+  import '../../assets/css/iconfont.css';
+  import '../../../static/lib/layer/skin/layer.css'
+  require('bootstrap');
   import gloabl from '../../api/globConfig'
+
   require('../../assets/js/uploadType')
   var NProgress = require('nprogress');
   import '../../assets/css/login.css'
@@ -83,7 +89,7 @@
       }
     },
     ready() {
-
+      document.title = this.BASE_URL_CONFIG.COMMON_BASE.TITLETEXT;
       this.resizeAll();
       document.onkeydown = (e) => {
         var theEvent = e || window.event;
@@ -126,6 +132,7 @@
        * 点击下载文档和app
        */
       download(type) {
+        var _this = this;
         if (type != 0) {
           gloabl.layer.open({
             type: 1,
@@ -133,7 +140,7 @@
             title: '扫一扫',
             area: ['300px', '330px'],
             shadeClose: true,
-            content: '<div class="tc"><img src="../../static/images/14731315701.png"></div>',
+            content: `<div class="tc"><img src="${_this.BASE_URL_CONFIG.COMMON_BASE.DOWNLOADIMAGES}"></div>`,
           })
         } else {
           new FileDownloader({
@@ -175,21 +182,23 @@
        */
       valideLogin(loop, auto_key) {
         NProgress.start();
+        var laod = layer.load(2);
         var self = this,
           param = '',
           loop = loop ? loop : false;
         if (loop) {
-          param = 'UMT06=' + auto_key + '&UMT05=3&UM0103=' + getCookie('userMobile');
+          param = 'UMT06=' + auto_key + '&UMT05=3&UM0103=' + gloabl.getCookie('userMobile');
         } else {
           param = 'UM0103=' + self.login_tel + '&UMT05=1&UM0115=' + this.login_pwd + '&UMT02=1&UMT03=' + self.login_code;
         }
         gloabl.fethAsync([URL.LOGIN_URL], param, res => {
           if (res.success) {
+            layer.close(laod);
             localStorage.removeItem('errorCode');
             var UM0113 = res.result.user.UM0113;
             gloabl.setCookie('autoLogin', UM0113);
             if (self.autoLogin) {
-              setCookie('userMobile', self.login_tel);
+              gloabl.setCookie('userMobile', self.login_tel);
             } else {
               gloabl.delCookie('autoLogin');
             }
@@ -198,6 +207,7 @@
             location.href = 'main.html';
             NProgress.done();
           } else {
+            layer.close(laod);
             var code = res.error;
             if (res.result == 'PIC_CODE') {
               localStorage.setItem('errorCode', 'PIC_CODE')

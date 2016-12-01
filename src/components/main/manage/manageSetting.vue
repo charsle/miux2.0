@@ -4,6 +4,7 @@
 			<div class="fl big_header">
 				<img class="default" :src="userInfo.UM0111 | getUrl" />
 			</div>
+			<!-- {{userInfo | json}} -->
 			<div class="col-md-5 col-xs-5 ml20 fs14">
 				<div class="row">
 					<span class="bold">{{userInfo.UM0102}}</span>&nbsp;&nbsp;<span class="light-grey">{{userInfo.UM0118}}</span>
@@ -97,7 +98,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-10 col-xs-10 pl20 mt25 pb10">
+		<div class="col-md-10 col-xs-10 pl20 mt25 pb10" v-if="isAdmin!=1">
 			<h5 class="bold light-grey">区域管理员<a href="javascript:;" class="light-blue fr fs14" @click="addGoOn('areas')"><i class="glyphicon glyphicon-plus" ></i>&nbsp;添加</a></h5>
 			<div class="col-md-12 white_box mt15 ptb10">
 				<table class="table table-striped fs12">
@@ -177,7 +178,8 @@
 				assistant: '',
 				manageItem: {},
 				typeM: '',
-				userInfo: JSON.parse(gloabl.getCookie('allUserInfo')).user
+				userInfo: JSON.parse(gloabl.getCookie('allUserInfo')).user,
+				isAdmin: sessionStorage.getItem('admin')
 			}
 		},
 		ready() {
@@ -367,7 +369,7 @@
 					gloabl.tipTools('团队助理名称不能为空', 'input[name="teamAssName"]');
 					return;
 				}
-				fethAsync(URL.UPDATE_TEAR_ASSISTANT_URL, 'TM00802=' + this.teamAssName, res => {
+				gloabl.fethAsync(URL.UPDATE_TEAR_ASSISTANT_URL, 'TM00802=' + this.teamAssName, res => {
 					if (res.success) {
 						gloabl.tipTools("修改成功");
 					}
@@ -468,7 +470,7 @@
 					btn: ['确定', '取消'],
 					// skin: 'layui-layer-molv'
 				}, () => {
-					fethAsync(URL.REMOVE_AREA_MANAGER_URL, 'TM00301=' + sid, res => {
+					gloabl.fethAsync(URL.REMOVE_AREA_MANAGER_URL, 'TM00301=' + sid, res => {
 						if (res.success) {
 							if (index != undefined) {
 								this.areaList.splice(index, 1);

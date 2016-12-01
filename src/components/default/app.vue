@@ -1,22 +1,21 @@
 <template id="">
   <div id="MIUX">
-    <div class="ESWFW066Left" id="ESWFW066Left" :style="{background:BASE_URL_CONFIG.COMMON_BASE.ISLEFTLOGO==false?'#34B6E7':BASE_URL_CONFIG.COMMON_BASE.BACKGROUND}">
+    <div class="ESWFW066Left" id="ESWFW066Left" :style="{background:BASE_URL_CONFIG.COMMON_BASE.ISLEFTBACKGROUND}">
       <div class="ESWFW066Logo" v-if="BASE_URL_CONFIG.COMMON_BASE.ISLEFTLOGO">
         <a href="index.html"><img :src="BASE_URL_CONFIG.COMMON_BASE.LOGO" /></a>
       </div>
       <div class="ESWFW066LeftBac tc" id="ESWFW066LeftBac">
         <h4 v-if="BASE_URL_CONFIG.COMMON_BASE.ISLEFTLOGO"><img :src="BASE_URL_CONFIG.COMMON_BASE.ISTITLELOGO"/></h4>
-        <h4 v-else><img :src="BASE_URL_CONFIG.COMMON_BASE.LEFTLOGO" style="max-width: 30%;"/></h4>
+        <h4 v-else><img :src="BASE_URL_CONFIG.COMMON_BASE.LEFTLOGO" :style="{'max-width':BASE_URL_CONFIG.COMMON_BASE.ISYUN?'100%':'30%'}"/></h4>
         <div v-if="BASE_URL_CONFIG.COMMON_BASE.ISTITLE">
           <h4 class="mt10">{{BASE_URL_CONFIG.COMMON_BASE.TITLE}}</h4>
         </div>
 
       </div>
       <div v-if="BASE_URL_CONFIG.COMMON_BASE.ISLEFTLOGO==false">
-
         <div style="position: absolute; bottom: 0;">
 
-          <img src="../../../static/images/copticmm/pic-1.png" style="max-width: 100%;" />
+          <img :src="BASE_URL_CONFIG.COMMON_BASE.ISLEFTIMAGE" style="max-width: 100%;" />
 
         </div>
 
@@ -35,6 +34,17 @@
   </div>
 </template>
 <script type="text/javascript">
+  import 'bootstrap/dist/css/bootstrap.min.css'
+  import '../../assets/css/reset.css';
+  import '../../assets/css/iconfont.css';
+  import '../../../static/lib/layer/skin/layer.css'
+  require('es6-promise').polyfill();
+  require('isomorphic-fetch');
+  require('bootstrap');
+
+
+
+
   import gloabl from '../../api/globConfig'
   import '../../assets/css/login.css'
   import systemConfig from '../../api/systemConfig'
@@ -42,10 +52,12 @@
   export default {
     data() {
       return {
-        BASE_URL_CONFIG: systemConfig
+        BASE_URL_CONFIG: systemConfig,
+        admin:sessionStorage.getItem('admin')
       }
     },
     ready: function() {
+    document.title=this.BASE_URL_CONFIG.COMMON_BASE.TITLETEXT;
       this.resizeAll();
       var _self = this;
       window.onresize = function() {
@@ -65,7 +77,13 @@
         var local = (this.$route.name);
 
         if (local === 'fpassword' || local === 'register') {
-          location.href = 'index.html';
+
+          if(this.admin==1){
+            location.href = 'admin.html';
+          }else{
+            location.href = 'index.html';
+          }
+
         } else {
           layer.confirm('信息未完成，您确定离开本页面吗？', {
             btn: ['残忍离开', '取消'], //按钮

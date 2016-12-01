@@ -37,7 +37,9 @@ export default new Vuex.Store({
     taskChecked: false,
     groupListItem: [],
     addPublicGroup: {}, //公开群组
-    addSecretGroup: {} //私密群组
+    addSecretGroup: {}, //私密群组
+    uploadReturnList: {}, //上传返回值
+    chooseFilesItem: {}
   },
   mutations,
 })

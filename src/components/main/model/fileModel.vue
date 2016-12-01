@@ -11,7 +11,8 @@
 					</div>
 				</div>
 				<div class="row mt5">
-					<select id="groupSelectedUpload" v-model="filesSelect" class="form-control">
+					<!-- {{groupFileItem | json}} -->
+					<select id="groupSelectedUpload" v-model="filesSelect" class="form-control" :disabled="disabled">
 						<option  v-for="option in options" :value="option">{{option.TM00206}}</option>
 					</select>
 				</div>
@@ -33,6 +34,7 @@
 			</div>
 		</div>
 		<div class="clearfix "></div>
+		<div class="par"></div>
 		<div class="col-xs-12 text-right ptb10">
 			<a href="javascript:;" class="btn btn-sure" @click="uploadFilesSubmit">确定</a>
 			<a href="javascript:;" class="btn btn-cancle" @click="cancleFile">取消</a>
@@ -40,164 +42,205 @@
 	</div>
 </template>
 <script type="text/javascript ">
-	import gloabl from '../../../api/globConfig'
-	import * as URL from '../../../api/restfull'
-	import StringUtil from '../../../assets/js/stringUtil';
-	import {
-		uploadAll
-	} from '../../../assets/js/upload';
-	export default {
-		data: function() {
-			return {
-				fileName: '',
-				filesSelect: '',
-				filesDesc: '',
-				userInfo: JSON.parse(gloabl.getCookie('allUserInfo')).user
-			}
-		},
+    import gloabl from '../../../api/globConfig'
+    import * as URL from '../../../api/restfull'
+    import StringUtil from '../../../assets/js/stringUtil';
+    // import UploadFile from '../../../assets/js/upload';
+    import {
+        uploadAll
+    } from '../../../assets/js/upload';
+    export default {
+        data: function() {
+            return {
+                fileName: '',
+                filesSelect: '',
+                filesDesc: '',
+                disabled: false,
+                userInfo: JSON.parse(gloabl.getCookie('allUserInfo')).user
+            }
+        },
+        vuex: {
+            getters: {
+                docModelItems(state) {
+                    return state.shareDocData;
+                },
+                options(state) {
+                    return state.groupListItem;
+                },
+                groupFileItem(state) {
+                    return state.chooseFilesItem;
+                }
+            }
+        },
+        watch: {
+            options: {
+                handler() {
+                    if (this.options.length != 0) {
+                        this.filesSelect = this.options[0];
+                    }
+                }
+            },
+            groupFileItem: {
+                handler() {
 
-		vuex: {
-			getters: {
-				docModelItems(state) {
-					return state.shareDocData;
-				},
-				options(state) {
-					return state.groupListItem;
-				}
-			}
-		},
-		watch: {
-			options: {
-				handler() {
-					if (this.options.length != 0) {
-						this.filesSelect = this.options[0];
-					}
-				}
-			}
-		},
-		methods: {
-			uploadFilesSubmit() {
-				if (this.docModelItems.hasOwnProperty('isUpload')) {
-					this.uploadFiles();
-				} else {
-					this.shreFile();
-				}
-			},
-			//文档上传
-			uploadFiles() {
-				uploadAll(2, this.docModelItems.objFile, '', '', (d) => {
-					if (d.data == null) {
-						return;
-					}
-					var msgId = this.docModelItems.msgId; //UUId
-					var DM00103 = this.docModelItems.DM00103; //时间
-					var DM00105 = this.docModelItems.objFile.name; //文件名称
-					var DM00106 = this.docModelItems.DM00106; //文件后缀
-					var DM00108 = this.docModelItems.objFile.size; //文件大小
-					var DM00109 = this.filesDesc; //文档描述
-					var DM00110 = d.data.key; //文档key
-					//对话类型
-					var DM00112 = this.filesSelect.TM00201 == '' ? '' : 2; //文件类型 分享和不分享
-					var DM00113 = this.filesSelect.TM00201; //下拉框id
-					var DM00116 = this.filesSelect.TM00201 == '' ? '' : this.filesSelect.TM00206 //下拉框名称
-						//缩略图key
-					var DM00117 = '';
-					//缩略图URL
-					var DM00118 = '';
-					var DM00119 = d.data.url;
-					if (StringUtil.ifImg(DM00106)) {
-						gloabl.getFileUploadToken(DM00105, DM00108, d.data.mimetype, d.data.checksum, (token) => {
-							gloabl.createThumbnail(2, DM00110, token, 0, 0, 30, (r) => {
-								if (r.code != 0) {
-									layer.msg("生成缩略图失败");
-									return;
-								}
-								DM00117 = r.data.key;
-								DM00118 = r.data.url;
-								var params = 'msgId=' + msgId + '&DM00103=' + DM00103 + '&DM00105=' + DM00105 + '&DM00106=' + DM00106 + '&DM00108=' + DM00108 + '&DM00109=' + DM00109 + '&DM00110=' + DM00110 + '&DM00112=' + DM00112 + '&DM00113=' + DM00113 +
-									'&DM00116=' + DM00116 + '&DM00117=' + DM00117 + '&DM00118=' + DM00118 + '&DM00119=' + DM00119;
-								this.sendFileMsg(params, DM00112);
-							})
-						});
-					} else {
-						var params = 'msgId=' + msgId + '&DM00103=' + DM00103 + '&DM00105=' + DM00105 + '&DM00106=' + DM00106 + '&DM00108=' + DM00108 + '&DM00109=' + DM00109 + '&DM00110=' + DM00110 + '&DM00112=' + DM00112 + '&DM00113=' + DM00113 +
-							'&DM00116=' + DM00116 + '&DM00117=' + DM00117 + '&DM00118=' + DM00118 + '&DM00119=' + DM00119;
-						this.sendFileMsg(params, DM00112);
-					}
-				}, (p) => {
+                    if ('TM00201' in this.groupFileItem) {
+                        // console.log('111', this.groupFileItem)
+                        this.filesSelect = this.groupFileItem;
+                        this.disabled = true;
+                    } else {
+                        // console.log('222', this.groupFileItem)
+                        this.filesSelect = this.options[0];
+                        this.disabled = false;
+                    }
+                }
+            }
+        },
+        methods: {
+            uploadFilesSubmit() {
+                if (this.docModelItems.hasOwnProperty('isUpload')) {
+                    this.uploadFiles();
+                } else {
+                    this.shreFile();
+                }
+            },
+            //文档上传
+            uploadFiles() {
+                //var loadFile = layer.load(2);
+                let data = {
+                        type: 2,
+                        xls: '',
+                        parames: '',
+                        callback: function() {}
+                    }
+                    // var upload = new UploadFile(this.docModelItems.objFile, data);
 
-					console.log(p, '----')
-					this.$store.dispatch('PARESS_BAR', p);
-				});
-			},
-			//分享后发送信息
-			sendFileMsg(params, DM00112) {
-				gloabl.fethAsync(URL.DOC_UPLOAD_URL, params, res => {
-					if (res.success) {
-						gloabl.layer.msg("文件上传成功");
-						//	this.param.orderBy = this.docType;
-						//	this.getDocData();
-						setTimeout(function() {
-							gloabl.layer.closeAll();
-						}, 500);
-						if (DM00112 == 2) {
-							this.$store.dispatch('MESSAGE_LIST', res.result);
-						}
-					}
-				})
+                // upload.initFileUpload(function(d) {
+                //     console.log(d, '-------');
+                // });
+                // console.log(upload);
+                // return;
+                uploadAll(2, this.docModelItems.objFile, '', '', (d) => {
+                    if (d.data == null) {
+                        return;
+                    }
+                    var msgId = this.docModelItems.msgId; //UUId
+                    var DM00103 = this.docModelItems.DM00103; //时间
+                    var DM00105 = (this.docModelItems.objFile.name).replace(/%/gi, '_'); //文件名称
+                    var DM00106 = this.docModelItems.DM00106; //文件后缀
+                    var DM00108 = this.docModelItems.objFile.size; //文件大小
+                    var DM00109 = this.filesDesc; //文档描述
+                    var DM00110 = d.data.key; //文档key
+                    //对话类型
+                    var DM00112 = this.filesSelect.TM00201 == '' ? '' : 2; //文件类型 分享和不分享
+                    var DM00113 = this.filesSelect.TM00201; //下拉框id
+                    var DM00116 = this.filesSelect.TM00201 == '' ? '' : this.filesSelect.TM00206 //下拉框名称
+                        //缩略图key
+                    var DM00117 = '';
+                    //缩略图URL
+                    var DM00118 = '';
+                    var DM00119 = d.data.url;
+                    if (StringUtil.ifImg(DM00106)) {
+                        gloabl.getFileUploadToken(DM00105, DM00108, d.data.mimetype, d.data.checksum, (token) => {
+                            gloabl.createThumbnail(2, DM00110, token, 0, 0, 30, (r) => {
+                                if (r.code != 0) {
+                                    layer.msg("生成缩略图失败");
+                                    return;
+                                }
+                                DM00117 = r.data.key;
+                                DM00118 = r.data.url;
+                                var params = 'msgId=' + msgId + '&DM00103=' + DM00103 + '&DM00105=' + DM00105 + '&DM00106=' + DM00106 + '&DM00108=' + DM00108 + '&DM00109=' + DM00109 + '&DM00110=' + DM00110 + '&DM00112=' + DM00112 + '&DM00113=' + DM00113 +
+                                    '&DM00116=' + DM00116 + '&DM00117=' + DM00117 + '&DM00118=' + DM00118 + '&DM00119=' + DM00119;
+                                this.sendFileMsg(params, DM00112);
+                            })
+                        });
+                    } else {
+                        var params = 'msgId=' + msgId + '&DM00103=' + DM00103 + '&DM00105=' + DM00105 + '&DM00106=' + DM00106 + '&DM00108=' + DM00108 + '&DM00109=' + DM00109 + '&DM00110=' + DM00110 + '&DM00112=' + DM00112 + '&DM00113=' + DM00113 +
+                            '&DM00116=' + DM00116 + '&DM00117=' + DM00117 + '&DM00118=' + DM00118 + '&DM00119=' + DM00119;
+                        this.sendFileMsg(params, DM00112);
+                    }
+                }, (p) => {
+                    // var worker = new Worker("../../../assets/js/upload");
+                    // worker.onmessage = function(event) {
+                    // 	console.log(event);
+                    // 	$('.par').html(event);
+                    // };
+                    console.log(p, '----')
+                    this.$store.dispatch('PARESS_BAR', p);
+                });
+            },
+            //分享后发送信息
+            sendFileMsg(params, DM00112) {
+                gloabl.fethAsync(URL.DOC_UPLOAD_URL, params, res => {
+                    if (res.success) {
+                        this.disabled = false;
+                        gloabl.layer.msg("文件上传成功");
+                        //	this.param.orderBy = this.docType;
+                        //	this.getDocData();
+                        var result = res.result
 
-			},
-			//确定分享
-			shreFile() {
-				//消息ID
-				var msgId = StringUtil.UUId(32);
-				var fileSid1 = this.docModelItems.DM00101;
-				var fileSize1 = this.docModelItems.DM00108;
-				var fileType1 = this.docModelItems.DM00106;
-				var fileName1 = this.docModelItems.DM00105;
-				var fileKey1 = this.docModelItems.DM00110;
-				//对话类型
-				var DM00112 = 2;
-				//对话对象id
-				var DM00113 = this.filesSelect.TM00201;
-				//对话对象名称
-				var DM00116 = this.filesSelect.TM00206;
-				var DM00117 = this.docModelItems.DM00117;
-				var DM00118 = this.docModelItems.DM00118;
-				var DM00119 = this.docModelItems.DM00119;
-				var params = 'msgId=' + msgId + '&DM00101=' + fileSid1 + '&DM00106=' + fileType1 + '&DM00108=' + fileSize1 + '&DM00105=' + fileName1 + '&DM00110=' + fileKey1 + '&DM00112=' + DM00112 + '&DM00113=' + DM00113 + '&DM00116=' + DM00116 + '&DM00117=' +
-					DM00117 + '&DM00118=' + DM00118 + '&DM00119=' + DM00119;
-				gloabl.fethAsync([URL.DOC_UPLOAD_URL], params, res => {
-					if (res.success) {
+                        this.$store.dispatch('UPLOAD_FILES_RETUEN', JSON.parse(result.MSG00109));
+                        setTimeout(function() {
+                            gloabl.layer.closeAll();
+                        }, 500);
+                        if (DM00112 == 2) {
+                            result.isSelf = 0;
+                            this.$store.dispatch('MESSAGE_LIST', result);
+                        }
+                    }
+                })
 
-						var result = res.result;
-						this.getGroupDataList(DM00113, data => {
-							result.MSG00110 = this.userInfo.UM0111;
-							result.isSelf = 0;
-							result.isShare = 0;
-							result.docImg = data.TM00210;
-							// console.log(JSON.stringify(result))
-							this.$store.dispatch('MESSAGE_LIST', result);
-						});
-						gloabl.layer.closeAll();
-						gloabl.layer.msg("文件分享成功");
-					} else {
-						gloabl.tipTools('文件分享失败')
-					}
-				});
+            },
+            //确定分享
+            shreFile() {
+                //消息ID
+                var msgId = StringUtil.UUId(32);
+                var fileSid1 = this.docModelItems.DM00101;
+                var fileSize1 = this.docModelItems.DM00108;
+                var fileType1 = this.docModelItems.DM00106;
+                var fileName1 = this.docModelItems.DM00105;
+                var fileKey1 = this.docModelItems.DM00110;
+                //对话类型
+                var DM00112 = 2;
+                //对话对象id
+                var DM00113 = this.filesSelect.TM00201;
+                //对话对象名称
+                var DM00116 = this.filesSelect.TM00206;
+                var DM00117 = this.docModelItems.DM00117;
+                var DM00118 = this.docModelItems.DM00118;
+                var DM00119 = this.docModelItems.DM00119;
+                var params = 'msgId=' + msgId + '&DM00101=' + fileSid1 + '&DM00106=' + fileType1 + '&DM00108=' + fileSize1 + '&DM00105=' + fileName1 + '&DM00110=' + fileKey1 + '&DM00112=' + DM00112 + '&DM00113=' + DM00113 + '&DM00116=' + DM00116 + '&DM00117=' +
+                    DM00117 + '&DM00118=' + DM00118 + '&DM00119=' + DM00119;
+                gloabl.fethAsync([URL.DOC_UPLOAD_URL], params, res => {
+                    if (res.success) {
 
-			},
-			getGroupDataList(DM00113, __callback) {
-				gloabl.fethAsync([URL.SEARCH_GROUP_BASE_INFO_URL], 'TM00201=' + DM00113, res => {
-					if (res.success) {
-						__callback(res.result)
-					}
-				})
-			},
-			//取消分享
-			cancleFile() {
-				gloabl.layer.closeAll();
-			}
-		}
-	}
+                        var result = res.result;
+                        this.getGroupDataList(DM00113, data => {
+                            result.MSG00110 = this.userInfo.UM0111;
+                            result.isSelf = 0;
+                            result.isShare = 0;
+                            result.docImg = data.TM00210;
+                            console.log(JSON.stringify(result))
+                            this.$store.dispatch('MESSAGE_LIST', result);
+                        });
+                        gloabl.layer.closeAll();
+                        gloabl.layer.msg("文件分享成功");
+                    } else {
+                        gloabl.tipTools('文件分享失败')
+                    }
+                });
+
+            },
+            getGroupDataList(DM00113, __callback) {
+                gloabl.fethAsync([URL.SEARCH_GROUP_BASE_INFO_URL], 'TM00201=' + DM00113, res => {
+                    if (res.success) {
+                        __callback(res.result)
+                    }
+                })
+            },
+            //取消分享
+            cancleFile() {
+                gloabl.layer.closeAll();
+            }
+        }
+    }
 </script>

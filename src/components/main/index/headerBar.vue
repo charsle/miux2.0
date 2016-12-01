@@ -49,6 +49,7 @@
 				<a v-link="{path: '/manage/tram'}" class="icon_manage" title="团队管理" v-if="isManage.UM0121!=0" @click="showManageTab"><i class="icon iconfont">&#xe603;</i></a>
 				<a href="javascript:;" class="icon_books" @click="currentRightTag('books','')" title="通讯录"><i class="icon iconfont">&#xe616;</i></a>
 				<a href="javascript:;" class="icon_doc" @click="currentRightTag('doc')" title="文档库"><i class="icon iconfont">&#xe615;</i></a>
+				<a href="javascript:;" class="icon_doc" @click="currentRightTag('apply')" title="审批流程"><i class="iconfont icon-yinzhang2"></i></a>
 				<a href="javascript:;" class="icon_task" @click="currentRightTag('task')" title="行事历"><i class="icon iconfont">&#xe605;</i></a>
 				<a href="javascript:;" class="icon_about" @click="currentRightTag('about')" title="与我有关"><i class="icon iconfont">&#xe60a;</i></a>
 				<a href="javascript:;" class="icon_star" @click="currentRightTag('star')" title="星标收藏"><i class="icon iconfont">&#xe60b;</i></a>
@@ -64,6 +65,7 @@
 						<a href="javascript:;" class="icon_star" @click="currentRightTag('star')" title="星标收藏"><i class="icon iconfont">&#xe60b;</i>星标收藏</a>
 						<a href="javascript:;" class="icon_about" @click="currentRightTag('about')" title="与我有关"><i class="icon iconfont">&#xe60a;</i>与我有关</a>
 						<a href="javascript:;" class="icon_task" @click="currentRightTag('task')" title="行事历"><i class="icon iconfont">&#xe605;</i>行事历</a>
+						<a href="javascript:;" class="icon_doc" @click="currentRightTag('apply')" title="审批流程"><i class="iconfont icon-yinzhang2">;</i>审批流程</a>
 						<a href="javascript:;" class="icon_doc" @click="currentRightTag('doc')" title="文档库"><i class="icon iconfont">&#xe615;</i>文档库</a>
 						<a href="javascript:;" class="icon_books" @click="currentRightTag('books','')" title="通讯录"><i class="icon iconfont">&#xe616;</i>通讯录</a>
 						<a v-link="{path: '/manage/tram'}" class="icon_manage" title="团队管理" v-if="isManage.UM0121!=0"><i class="icon iconfont">&#xe603;</i>团队管理</a>
@@ -79,8 +81,12 @@
 				</span>
 				<div class="fl tr" v-cloak>
 					<div v-if="getGroupList.length!=0 && nowCurrent.sendtype==2">
-						<a href="javascript:;" class="light-blue" @click="currentRightTag('group',getGroupList.TM00201)"><i class="iconfont">&#xe629;</i></a>&nbsp;&nbsp;
-						<span class="light-grey"><i class="iconfont">&#xe612;</i>&nbsp;{{getGroupList.onlinePersonNum==null?0:getGroupList.onlinePersonNum}}/{{getGroupList.personNum==null?0:getGroupList.personNum}}</span>
+						<a href="javascript:;" class="light-blue" @click="currentRightTag('group',getGroupList.TM00201)">
+							<i class="iconfont" title="频组信息">&#xe637;</i>
+						</a>&nbsp;&nbsp;
+						<span class="light-grey">
+							<i class="iconfont">&#xe612;</i>&nbsp;
+							{{getGroupList.onlinePersonNum==null?0:getGroupList.onlinePersonNum}}/{{getGroupList.personNum==null?0:getGroupList.personNum}}</span>
 					</div>
 				</div>
 				<!--<div class="fr pl10">
@@ -99,217 +105,217 @@
 
 </template>
 <style type="text/css">
-	.w100 {
-		width: 100%;
-	}
-
-	.w90 {
-		width: 90%;
-	}
+    .w100 {
+        width: 100%;
+    }
+    
+    .w90 {
+        width: 90%;
+    }
 </style>
 <script type="text/javascript">
-	import createVote from '../model/createVote'
-	import createNotice from '../model/createNotice'
-	import gloabl from '../../../api/globConfig'
-	import * as URL from '../../../api/restfull'
-	export default {
-		components: {
-			createVote,
-			createNotice
-		},
-		data() {
-			return {
-				isTipShow: false,
-				isManage: JSON.parse(gloabl.getCookie('allUserInfo')).user,
-				isContact: false,
-				isShowManageTab: false,
-				isShowNoticeTab: false,
-				sid: '',
-				searchList: [],
-				mainValue: '',
-				isShowDel: false,
-				nowCurrent: JSON.parse(sessionStorage.getItem('firstTab'))
-			}
-		},
-		vuex: {
+    import createVote from '../model/createVote'
+    import createNotice from '../model/createNotice'
+    import gloabl from '../../../api/globConfig'
+    import * as URL from '../../../api/restfull'
+    export default {
+        components: {
+            createVote,
+            createNotice
+        },
+        data() {
+            return {
+                isTipShow: false,
+                isManage: JSON.parse(gloabl.getCookie('allUserInfo')).user,
+                isContact: false,
+                isShowManageTab: false,
+                isShowNoticeTab: false,
+                sid: '',
+                searchList: [],
+                mainValue: '',
+                isShowDel: false,
+                nowCurrent: JSON.parse(sessionStorage.getItem('firstTab'))
+            }
+        },
+        vuex: {
 
-			getters: {
-				threadsCurrent(state) {
-					return state.threads
-				},
-				noticeTab(state) {
-					return state.noticeTab;
-				},
-				getGroupList(state) {
-					return state.showGroupIcon;
-				}
-			}
-		},
-		watch: {
-			noticeTab: {
-				handler() {
-					this.isShowNoticeTab = this.noticeTab;
-				}
-			},
-			threadsCurrent: {
-				handler() {
-					this.nowCurrent = this.threadsCurrent.hasOwnProperty('sendid') ? this.threadsCurrent : JSON.parse(sessionStorage.getItem('firstTab'));
-				}
-			}
-		},
-		ready() {
-			this.sid = sessionStorage.getItem('sid');
-			var host = location.hash;
-			if (host.indexOf('tram') > -1) {
-				this.isShowManageTab = true;
-				this.isContact = false;
-			} else {
-				this.isShowManageTab = false;
-				this.isContact = true
-			}
-			if (host.indexOf('notice') > -1) {
-				this.isShowNoticeTab = this.noticeTab == false ? true : true;
-			} else {
-				this.isShowNoticeTab = false;
-			}
-		},
-		methods: {
-			closeTab(type) {
-				if (type == 1) {
-					this.isShowNoticeTab = false;
-					this.$route.router.go({
-						name: 'contact',
-						params: {
-							name: '团队公告',
-							sendid: 1,
-							sendtype: 3,
-						}
-					})
-				} else {
-					this.$route.router.go({
-						name: 'contact',
-						params: {
-							name: this.nowCurrent.name,
-							sendid: this.nowCurrent.sendid,
-							sendtype: this.nowCurrent.sendtype,
-						}
-					})
-					this.isShowManageTab = false;
-				}
+            getters: {
+                threadsCurrent(state) {
+                    return state.threads
+                },
+                noticeTab(state) {
+                    return state.noticeTab;
+                },
+                getGroupList(state) {
+                    return state.showGroupIcon;
+                }
+            }
+        },
+        watch: {
+            noticeTab: {
+                handler() {
+                    this.isShowNoticeTab = this.noticeTab;
+                }
+            },
+            threadsCurrent: {
+                handler() {
+                    this.nowCurrent = this.threadsCurrent.hasOwnProperty('sendid') ? this.threadsCurrent : nowCurrent;
+                }
+            }
+        },
+        ready() {
+            this.sid = sessionStorage.getItem('sid');
+            var host = location.hash;
+            if (host.indexOf('tram') > -1) {
+                this.isShowManageTab = true;
+                this.isContact = false;
+            } else {
+                this.isShowManageTab = false;
+                this.isContact = true
+            }
+            if (host.indexOf('notice') > -1) {
+                this.isShowNoticeTab = this.noticeTab == false ? true : true;
+            } else {
+                this.isShowNoticeTab = false;
+            }
+        },
+        methods: {
+            closeTab(type) {
+                if (type == 1) {
+                    this.isShowNoticeTab = false;
+                    this.$route.router.go({
+                        name: 'contact',
+                        params: {
+                            name: '团队公告',
+                            sendid: 1,
+                            sendtype: 3,
+                        }
+                    })
+                } else {
+                    this.$route.router.go({
+                        name: 'contact',
+                        params: {
+                            name: this.nowCurrent.name,
+                            sendid: this.nowCurrent.sendid,
+                            sendtype: this.nowCurrent.sendtype,
+                        }
+                    })
+                    this.isShowManageTab = false;
+                }
 
-			},
-			currentRightTag(type) {
-				this.$store.dispatch('SWITCH_RIGHT', type)
-			},
-			showManageTab() {
-				this.isShowManageTab = true;
-			},
-			showCardMessage(item) {
-				if (this.isManage.UM0101 == item.sid) {
-					this.$store.dispatch('SWITCH_RIGHT', 'pinfo');
-				} else {
-					this.$store.dispatch('SWITCH_RIGHT', 'card', item.sid);
+            },
+            currentRightTag(type, id) {
+                this.$store.dispatch('SWITCH_RIGHT', type, id)
+            },
+            showManageTab() {
+                this.isShowManageTab = true;
+            },
+            showCardMessage(item) {
+                if (this.isManage.UM0101 == item.sid) {
+                    this.$store.dispatch('SWITCH_RIGHT', 'pinfo');
+                } else {
+                    this.$store.dispatch('SWITCH_RIGHT', 'card', item.sid);
 
-				}
-			},
-			//发起公告
-			sendNoctice() {
-				var ue = null;
-				var _this = this;
-				layer.open({
-					type: 1,
-					title: '发起公告',
-					content: $('#noticeTemplate'),
-					area: ['800px', '550px'],
-				});
-			},
-			//发起投票
-			sendVote() {
-				layer.open({
-					type: 1,
-					title: '发起投票',
-					content: $('#voteTemplate'),
-					area: ['430px', 'auto'],
-				});
-			},
-			showMoreContent(e) {
-				if (this.isTipShow) {
-					this.isTipShow = false
-				} else {
-					var ev = e || window.event;
-					this.isTipShow = true;
-					if (ev.stopPropagation) {
-						ev.stopPropagation();
-					} else if (window.event) {
-						window.event.cancelBubble = true; //兼容IE
-					}
-					document.onclick = () => {
-						this.isTipShow = false
-					}
-					$('.tip-popover').click(function(e) {
-						var ev = e || window.event;
-						if (ev.stopPropagation) {
-							ev.stopPropagation();
-						} else if (window.event) {
-							window.event.cancelBubble = true; //兼容IE
-						}
-					})
-				}
-			},
-			//添加或者取消星标
-			markPersonStar(sid, type) {
-				var params = 'UMT10=' + sid + '&UMT22=' + type;
-				gloabl.cancelPersonStar(params, loop => {
-					if (type == 1) {
-						this.nowCurrent.isStar = 1;
-					} else {
-						this.nowCurrent.isStar = 0;
-					}
+                }
+            },
+            //发起公告
+            sendNoctice() {
+                var ue = null;
+                var _this = this;
+                layer.open({
+                    type: 1,
+                    title: '发起公告',
+                    content: $('#noticeTemplate'),
+                    area: ['800px', '550px'],
+                });
+            },
+            //发起投票
+            sendVote() {
+                layer.open({
+                    type: 1,
+                    title: '发起投票',
+                    content: $('#voteTemplate'),
+                    area: ['430px', 'auto'],
+                });
+            },
+            showMoreContent(e) {
+                if (this.isTipShow) {
+                    this.isTipShow = false
+                } else {
+                    var ev = e || window.event;
+                    this.isTipShow = true;
+                    if (ev.stopPropagation) {
+                        ev.stopPropagation();
+                    } else if (window.event) {
+                        window.event.cancelBubble = true; //兼容IE
+                    }
+                    document.onclick = () => {
+                        this.isTipShow = false
+                    }
+                    $('.tip-popover').click(function(e) {
+                        var ev = e || window.event;
+                        if (ev.stopPropagation) {
+                            ev.stopPropagation();
+                        } else if (window.event) {
+                            window.event.cancelBubble = true; //兼容IE
+                        }
+                    })
+                }
+            },
+            //添加或者取消星标
+            markPersonStar(sid, type) {
+                var params = 'UMT10=' + sid + '&UMT22=' + type;
+                gloabl.cancelPersonStar(params, loop => {
+                    if (type == 1) {
+                        this.nowCurrent.isStar = 1;
+                    } else {
+                        this.nowCurrent.isStar = 0;
+                    }
 
-				})
-			},
-			/*
-			 * 主页面搜索
-			 */
-			searchMain(e) {
-				var ev = e || window.event;
-				this.isShowDel = true;
-				if (ev.stopPropagation) {
-					ev.stopPropagation();
-				} else if (window.event) {
-					window.event.cancelBubble = true; //兼容IE
-				}
-				document.onclick = () => {
-					this.isShowDel = false
-				}
-				$('.searchTip').click(function(e) {
-					var ev = e || window.event;
-					if (ev.stopPropagation) {
-						ev.stopPropagation();
-					} else if (window.event) {
-						window.event.cancelBubble = true; //兼容IE
-					}
-				})
-				if (this.mainValue == '') {
-					this.clearMainValue();
-				} else {
-					gloabl.fethAsync(URL.SEARCH_MAIN_URL, 'TMT01=' + this.mainValue, res => {
-						if (res.success) {
-							if (res.result.length > 0) {
-								this.isShowDel = true;
-								this.searchList = res.result;
-								gloabl.doResizeHeight();
-							}
-						}
-					})
-				}
-			},
-			clearMainValue() {
-				this.isShowDel = false;
-				this.mainValue = '';
-				this.searchList = [];
+                })
+            },
+            /*
+             * 主页面搜索
+             */
+            searchMain(e) {
+                var ev = e || window.event;
+                this.isShowDel = true;
+                if (ev.stopPropagation) {
+                    ev.stopPropagation();
+                } else if (window.event) {
+                    window.event.cancelBubble = true; //兼容IE
+                }
+                document.onclick = () => {
+                    this.isShowDel = false
+                }
+                $('.searchTip').click(function(e) {
+                    var ev = e || window.event;
+                    if (ev.stopPropagation) {
+                        ev.stopPropagation();
+                    } else if (window.event) {
+                        window.event.cancelBubble = true; //兼容IE
+                    }
+                })
+                if (this.mainValue == '') {
+                    this.clearMainValue();
+                } else {
+                    gloabl.fethAsync(URL.SEARCH_MAIN_URL, 'TMT01=' + this.mainValue, res => {
+                        if (res.success) {
+                            if (res.result.length > 0) {
+                                this.isShowDel = true;
+                                this.searchList = res.result;
+                                gloabl.doResizeHeight();
+                            }
+                        }
+                    })
+                }
+            },
+            clearMainValue() {
+                this.isShowDel = false;
+                this.mainValue = '';
+                this.searchList = [];
 
-			}
-		}
-	}
+            }
+        }
+    }
 </script>

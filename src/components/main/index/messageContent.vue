@@ -27,7 +27,7 @@
 					<msg-vote v-if="item.MSG00108==11" :item-list="item"></msg-vote>
 					<!--<msg-vote v-if="item.MSG00108==12" :item-list="item"></msg-vote>-->
 					<msg-delete v-if="item.MSG00108==13" :item-list="item"></msg-delete>
-					<msg-robot.vue v-if="item.MSG00108==15" :item-list="item"></msg-robot>
+					<!-- <msg-robot v-if="item.MSG00108==15" :item-list="item"></msg-robot> -->
 				</li>
 			</ul>
 

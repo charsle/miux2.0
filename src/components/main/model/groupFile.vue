@@ -10,8 +10,8 @@
 		<div class="col-xs-12 commen_tab doc_tabWidth">
 			<div class="tab_left">
 				<ul class="nav nav-tabs" role="tablist">
-					<li class="right0 radTL3" style="width: 50%;">
-						<a href="javascript:;" v-cloak>{{groupFileObj.TM00206}}</a>
+					<li class="right0 radTL3 " style="width: 50%;">
+						<a href="javascript:;" v-cloak class="break nowrap overflow" title="{{groupFileObj.TM00206}}">{{groupFileObj.TM00206}}</a>
 					</li>
 					<li class="radRB3" style="width: 50%;">
 						<a href="javascript:;" @click="getGroupPeo">
@@ -39,8 +39,9 @@
 				</ul>
 			</div>
 			<div class="tab_right">
-				<input type="file" id="fileUpLoad" style="display: none;" />
-				<a class="radius3" href="javascript:;" @click="upFileGroup"><i class="iconfont">&#xe628;</i>&nbsp;&nbsp;上传</a>
+				<!-- <input type="file" id="fileUpLoad" style="display: none;" />
+				<a class="radius3" href="javascript:;" @click="upFileGroup"><i class="iconfont">&#xe628;</i>&nbsp;&nbsp;上传</a> -->
+				<upload-file type="newupdaload" :group-item="groupItem"></upload-file>
 			</div>
 			<div class="clearfix"></div>
 		</div>
@@ -56,7 +57,8 @@
 <script type="text/javascript">
 	import gloabl from '../../../api/globConfig'
 	import * as URL from '../../../api/restfull'
-	import fileModel from './fileModel';
+	// import fileModel from './fileModel';
+	import uploadFile from '../../upload/uploadFile';
 	import docType from './docType';
 	import {
 		uploadAll
@@ -79,6 +81,7 @@
 				moreGroupFile: '加载更多',
 				grFilePage: 1,
 				filetype: 2,
+				groupItem: '',
 				groupFileObj: '',
 				params: {
 					DM00112: 2,
@@ -93,6 +96,18 @@
 		ready() {
 			gloabl.doResizeHeight();
 			this.groupFileObj = JSON.parse(gloabl.getCookie('slingeGroupInfo'));
+			this.groupItem = {
+				TM00201: this.groupFileObj.TM00201,
+				TM00202: this.groupFileObj.TM00202,
+				TM00203: this.groupFileObj.TM00203,
+				TM00204: this.groupFileObj.TM00204,
+				TM00205: this.groupFileObj.TM00205,
+				TM00206: this.groupFileObj.TM00206,
+				TM00207: this.groupFileObj.TM00207,
+				TM00208: this.groupFileObj.TM00208,
+				TM00209: this.groupFileObj.TM00209,
+				TM00210: this.groupFileObj.TM00210,
+			}
 			if (this.sstorage.getItem('groupReturn') == 1) {
 				this.sstorage.setItem('groupReturn', 0);
 				this.params = JSON.parse(this.sstorage.getItem('groupParam'));
@@ -100,7 +115,7 @@
 				this.params.DM00113 = this.groupFileObj.TM00201;
 			}
 			this.getGroupFile();
-			this.fileOpenChange();
+			// this.fileOpenChange();
 		},
 		methods: {
 			currentRightTag(type) {
@@ -140,7 +155,7 @@
 						self.authorItem = res.result.list;
 						self.groupTotalFile = res.result;
 					} else {
-						tipTools(res.msg);
+						gloabl.tipTools(res.msg);
 						return;
 					}
 				})
@@ -198,86 +213,86 @@
 
 			},
 			//上传打开窗口
-			fileOpenChange: function() {
-				var _this = this;
-				$('#fileUpLoad').change(function() {
-					gloabl.layer.open({
-						type: 1,
-						title: '文件上传',
-						area: '400',
-						skin: '',
-						btn: ['确定', '取消'],
-						content: $('#fileShareModel'),
-						yes: function() {
-							var fileInfo = document.getElementById("fileUpLoad").files[0];
-							//消息ID
-							var msgId = stringUtil.UUId(32);
-							//发送时间
-							var DM00103 = stringUtil.dateFormat();
-							//文件名称
-							var DM00105 = $('#fileName').val();
-							//文件后缀
-							var DM00106 = _this.DM00106;
-							//文件大小
-							var DM00108 = fileInfo.size;
-							//文件描述
-							var DM00109 = $('#fileRemark').val();
-							//对话对象id
-							var DM00113 = $('#groupSelectedUpload').val();
-							//对话类型
-							var DM00112 = DM00113 == '' ? '' : 2;
-
-							//对话对象名称
-							var DM00116 = DM00113 == '' ? '' : $("#groupSelectedUpload").find("option:selected").text();
-							uploadAll(2, fileInfo, '', '', function(d) {
-								if (d.data == null) {
-									gloabl.layer.msg("文件上传失败");
-									setTimeout(function() {
-										gloabl.layer.closeAll();
-									}, 1000);
-									return;
-								}
-								//文件标识：上传文档之后由文档服务器生成的key
-								var DM00110 = d.data.key;
-								//缩略图key
-								var DM00117 = '';
-								//缩略图URL
-								var DM00118 = '';
-								var DM00119 = d.data.url;
-
-								if (stringUtil.ifImg(DM00106)) {
-									gloabl.getFileUploadToken(DM00105, DM00108, d.data.mimetype, d.data.checksum, function(token) {
-										gloabl.createThumbnail(2, DM00110, token, 0, 0, 30, function(r) {
-											if (r.code != 0) {
-												layer.msg("生成缩略图失败");
-												return;
-											}
-											DM00117 = r.data.key;
-											DM00118 = r.data.url;
-											var param = 'msgId=' + msgId + '&DM00103=' + DM00103 + '&DM00105=' + DM00105 + '&DM00106=' + DM00106 + '&DM00108=' + DM00108 + '&DM00109=' + DM00109 + '&DM00110=' + DM00110 + '&DM00112=' + DM00112 + '&DM00113=' + DM00113 +
-												'&DM00116=' + DM00116 + '&DM00117=' + DM00117 + '&DM00118=' + DM00118 + '&DM00119=' + DM00119;
-											_this.sendFileMsg(param, DM00112);
-										})
-									});
-								} else {
-									var param = 'msgId=' + msgId + '&DM00103=' + DM00103 + '&DM00105=' + DM00105 + '&DM00106=' + DM00106 + '&DM00108=' + DM00108 + '&DM00109=' + DM00109 + '&DM00110=' + DM00110 + '&DM00112=' + DM00112 + '&DM00113=' + DM00113 +
-										'&DM00116=' + DM00116 + '&DM00117=' + DM00117 + '&DM00118=' + DM00118 + '&DM00119=' + DM00119;
-									_this.sendFileMsg(param, DM00112);
-								}
-
-							});
-
-						}
-
-					})
-					_this.$store.dispatch('SHARE_DOC_DATA', '');
-					var array = document.getElementById("fileUpLoad").files[0];
-					var fname = array.name;
-					$('#fileName').val(fname.substring(0, fname.lastIndexOf('.')));
-					_this.DM00106 = fname.substring(fname.lastIndexOf('.') + 1, fname.length);
-					$('#fileSize').html(stringUtil.formatSize(array.size));
-				})
-			},
+			// fileOpenChange: function() {
+			// 	var _this = this;
+			// 	$('#fileUpLoad').change(function() {
+			// 		gloabl.layer.open({
+			// 			type: 1,
+			// 			title: '文件上传',
+			// 			area: '400',
+			// 			skin: '',
+			// 			// btn: ['确定', '取消'],
+			// 			content: $('#fileShareModel'),
+			// 			yes: function() {
+			// 				var fileInfo = document.getElementById("fileUpLoad").files[0];
+			// 				//消息ID
+			// 				var msgId = stringUtil.UUId(32);
+			// 				//发送时间
+			// 				var DM00103 = stringUtil.dateFormat();
+			// 				//文件名称
+			// 				var DM00105 = $('#fileName').val();
+			// 				//文件后缀
+			// 				var DM00106 = _this.DM00106;
+			// 				//文件大小
+			// 				var DM00108 = fileInfo.size;
+			// 				//文件描述
+			// 				var DM00109 = $('#fileRemark').val();
+			// 				//对话对象id
+			// 				var DM00113 = $('#groupSelectedUpload').val();
+			// 				//对话类型
+			// 				var DM00112 = DM00113 == '' ? '' : 2;
+			//
+			// 				//对话对象名称
+			// 				var DM00116 = DM00113 == '' ? '' : $("#groupSelectedUpload").find("option:selected").text();
+			// 				uploadAll(2, fileInfo, '', '', function(d) {
+			// 					if (d.data == null) {
+			// 						gloabl.layer.msg("文件上传失败");
+			// 						setTimeout(function() {
+			// 							gloabl.layer.closeAll();
+			// 						}, 1000);
+			// 						return;
+			// 					}
+			// 					//文件标识：上传文档之后由文档服务器生成的key
+			// 					var DM00110 = d.data.key;
+			// 					//缩略图key
+			// 					var DM00117 = '';
+			// 					//缩略图URL
+			// 					var DM00118 = '';
+			// 					var DM00119 = d.data.url;
+			//
+			// 					if (stringUtil.ifImg(DM00106)) {
+			// 						gloabl.getFileUploadToken(DM00105, DM00108, d.data.mimetype, d.data.checksum, function(token) {
+			// 							gloabl.createThumbnail(2, DM00110, token, 0, 0, 30, function(r) {
+			// 								if (r.code != 0) {
+			// 									layer.msg("生成缩略图失败");
+			// 									return;
+			// 								}
+			// 								DM00117 = r.data.key;
+			// 								DM00118 = r.data.url;
+			// 								var param = 'msgId=' + msgId + '&DM00103=' + DM00103 + '&DM00105=' + DM00105 + '&DM00106=' + DM00106 + '&DM00108=' + DM00108 + '&DM00109=' + DM00109 + '&DM00110=' + DM00110 + '&DM00112=' + DM00112 + '&DM00113=' + DM00113 +
+			// 									'&DM00116=' + DM00116 + '&DM00117=' + DM00117 + '&DM00118=' + DM00118 + '&DM00119=' + DM00119;
+			// 								_this.sendFileMsg(param, DM00112);
+			// 							})
+			// 						});
+			// 					} else {
+			// 						var param = 'msgId=' + msgId + '&DM00103=' + DM00103 + '&DM00105=' + DM00105 + '&DM00106=' + DM00106 + '&DM00108=' + DM00108 + '&DM00109=' + DM00109 + '&DM00110=' + DM00110 + '&DM00112=' + DM00112 + '&DM00113=' + DM00113 +
+			// 							'&DM00116=' + DM00116 + '&DM00117=' + DM00117 + '&DM00118=' + DM00118 + '&DM00119=' + DM00119;
+			// 						_this.sendFileMsg(param, DM00112);
+			// 					}
+			//
+			// 				});
+			//
+			// 			}
+			//
+			// 		})
+			// 		_this.$store.dispatch('SHARE_DOC_DATA', '');
+			// 		var array = document.getElementById("fileUpLoad").files[0];
+			// 		var fname = array.name;
+			// 		$('#fileName').val(fname.substring(0, fname.lastIndexOf('.')));
+			// 		_this.DM00106 = fname.substring(fname.lastIndexOf('.') + 1, fname.length);
+			// 		$('#fileSize').html(stringUtil.formatSize(array.size));
+			// 	})
+			// },
 			//分页
 			groupFileMore() {
 				this.grFilePage = this.grFilePage + 1;
@@ -286,7 +301,9 @@
 			}
 		},
 		components: {
-			docType
+			docType,
+			uploadFile
+
 		}
 	}
 </script>

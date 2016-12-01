@@ -292,7 +292,7 @@
 				//发送时间
 				var DM00103 = StringUtil.dateFormat();
 				//文件名称
-				var fname = fileInfo.name;
+				var fname = (fileInfo.name).replace(/%/gi, '_');
 				var DM00105 = fname.substring(0, fname.lastIndexOf('.'));
 				//文件后缀
 				var DM00106 = fname.substring(fname.lastIndexOf('.') + 1, fname.length);

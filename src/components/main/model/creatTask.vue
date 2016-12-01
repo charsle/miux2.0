@@ -19,18 +19,18 @@
 				</div>
 				<div class="col-xs-10 fs12" v-show="isShowTip">
 					<div class="col-xs-11">
-						<div class="col-xs-4">
-						<datetime :readonly="true"  format="MM-DD"></datetime>
-
+						<div class="col-xs-5">
+						<!-- <datetime :readonly="true"  format="MM-DD"></datetime> -->
+				<vue-flatpickr v-model='date'   :options="fpOptions" placeholder="请选择时间" @update='update'></vue-flatpickr>
 						</div>
-						<div class="col-xs-2 pl10">
+						<div class="col-xs-2 pl10" style="line-height:30px;">
 							<select v-model="selectedTime" @change="changeTime" style="height:30px">
 								<option value="1">上午</option>
 								<option value="2">下午</option>
 								<option value="3">晚上</option>
 							</select>
 						</div>
-						<div class="col-xs-6 pl10">
+						<div class="col-xs-5 pl10">
 							<!-- onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"  -->
 							<input class="tc" type="text" id="tHour" v-model="tHour"  @keyup="tipStyle | debounce 1000"  maxlength="2" style="width: 30px;height:30px" />&nbsp;:&nbsp;
 							<input class="tc" type="text" id="tMuni" v-model="tMuni"  maxlength="2" style="width: 30px;height:30px"  />
@@ -71,6 +71,7 @@
 	import * as URL from '../../../api/restfull'
 	import StringUtil from '../../../assets/js/stringUtil';
 	import datetime from 'vue-datetimepicker';
+	import vueFlatpickr from 'vue-flatpickr/vue-flatpickr-default.vue'
 	export default {
 
 		data: function() {
@@ -83,7 +84,23 @@
 				tData: '',
 				taskTitle: '',
 				selectedTime: 1,
-				haederPic: JSON.parse(gloabl.getCookie('allUserInfo')).user.UM0111
+				haederPic: JSON.parse(gloabl.getCookie('allUserInfo')).user.UM0111,
+				date: '',
+				fpOptions: {
+					dateFormat: 'm-d',
+					enableTime: true,
+
+					enableSeconds: false,
+					noCalendar: false,
+					shorthandCurrentMonth: false,
+					weekNumbers: false,
+					time_24hr: true,
+					utc: false,
+					enable: [{
+						from: "today",
+						to: new Date().fp_incr(90) // 7 days from now
+					}]
+				}
 			}
 		},
 
@@ -97,13 +114,17 @@
 				}
 			}
 		},
-		events: {
-			"changeDate": function(msg) {
+		// events: {
+		// 	update: function(msg) {
+		// 		this.tData = msg
+		//
+		// 	}
+		// },
+		methods: {
+			update: function(msg) {
 				this.tData = msg
 
-			}
-		},
-		methods: {
+			},
 			chooseAllPerson() {
 				this.$store.dispatch('CHOOSE_ALL_PERSON', []);
 				this.$store.dispatch('CHOOSE_ALL_INDEX', []);
@@ -138,7 +159,7 @@
 			//上午、下午、晚上
 			changeTime: function() {
 				if (this.selectedTime == 1) {
-					this.tHour = '09';
+					this.tHour = '9';
 					this.tMuni = '00';
 				} else if (this.selectedTime == 2) {
 					this.tHour = '14';
@@ -161,12 +182,22 @@
 					var timeTip = 1;
 					var dd = new Date();
 					var y = dd.getFullYear();
-					timeAll = y + '-' + this.tData + ' ' + this.tHour + ':' + this.tMuni + ':00';
+					timeAll = y + '-' + this.tData + ' ' + this.tHour < 10 ? +'0' + this.tHour : this.tHour + ':' + this.tMuni + ':00';
 				} else {
 					var timeTip = 0;
 				}
+				if (this.tHour > 24) {
+					gloabl.tipTools('您输入的小时不能大于24');
+					return;
+				}
+				if (this.tMuni > 60) {
+					gloabl.tipTools('您输入的分钟不能大于60；');
+					return;
+				}
 				var personAdd = $('#personAdd').text();
 				var param = 'CT00104=' + taskTitle + '&CT00105=' + timeTip + '&CT00106=' + timeAll + '&CT00109=' + personAdd + '&CT00108=' + (this.personListIndex).toString();
+				// console.log(param);
+				// return;
 				gloabl.fethAsync([URL.NEW_TASK_URL], param, res => {
 					if (res.success) {
 						this.$store.dispatch('TASK_LIST', res.result);
@@ -195,7 +226,9 @@
 			}
 		},
 		components: {
-			datetime
+			datetime,
+			vueFlatpickr
+
 		}
 	}
 </script>

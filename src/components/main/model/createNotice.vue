@@ -5,7 +5,7 @@
 				<input type="text" class="form-control" maxlength="54" v-model="teamNoticeTitle" id="teamNoticeTitle" name="teamNoticeTitle" placeholder="标题" />
 			</div>
 			<div style="padding-top:10px;">
-				<div id="textarea1"  placeholder="正文" style="width:755px;height:240px;"><p>请输入内容...</p></div>
+				<div id="textarea1"  placeholder="正文" style="width:755px;height:240px;"></div>
 			</div>
 			<div class="clearfix"></div>
 		</div>
@@ -90,6 +90,29 @@
 
 
 			this.editor = new wangEditor('textarea1');
+			this.editor.config.menus = [
+				'source',
+				'|',
+				'bold',
+				'underline',
+				'italic',
+				'|',
+				'quote',
+				'fontfamily',
+				'fontsize',
+				'unorderlist',
+				'orderlist',
+				'alignleft',
+				'aligncenter',
+				'alignright',
+				'|',
+				'img',
+				'table',
+				'|',
+				'undo',
+				'redo',
+				'fullscreen'
+			]
 			this.editor.config.customUpload = true;
 			this.editor.config.customUploadInit = this.uploadInit;
 			this.editor.create();
@@ -167,7 +190,7 @@
 					"content": text,
 					"userName": personList.UM0102,
 					"attachment": this.uploadFileList,
-					"image": '<img src="' + img + '" style="max-width:100%;"/>',
+					"image": img,
 					"contentWord": contentWord
 				}
 				var params = {
@@ -185,7 +208,7 @@
 				};
 				sendMessageInfo(params);
 				this.teamNoticeTitle = '';
-				this.editor.$txt.html('<p>请输入内容...</p>');
+				this.editor.$txt.html('');
 				this.uploadFileList = [];
 				setTimeout(() => {
 					layer.closeAll();
@@ -193,7 +216,7 @@
 			},
 			cancelNotice() {
 				this.teamNoticeTitle = '';
-				this.editor.$txt.html('<p>请输入内容...</p>');
+				this.editor.$txt.html('');
 				this.uploadFileList = [];
 				gloabl.layer.closeAll();
 			},

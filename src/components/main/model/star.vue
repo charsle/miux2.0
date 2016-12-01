@@ -158,7 +158,7 @@
 							this.moreStar = '加载更多';
 						}
 					} else {
-						tipTools(res.msg);
+						gloabl.tipTools(res.msg);
 						return;
 					}
 				})

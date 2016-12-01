@@ -12,22 +12,41 @@
       </div>
     </div>
 </div>
-    <div class="welcome-content">
+    <div class="welcome-content" id="welcome-content">
       <!-- <img src="../../../static/images/cloud/w_bg.png" alt="" style="max-width:100%;height:785px;"/> -->
     </div>
     <div class="welcome-footer tc">
-      <a href="javascript:;" class="android_app">
+      <a href="http://hz.miux.com.cn:8086/SessionManager/app-universal-release.apk" class="android_app">
 
       </a>
-      <a href="javascript:;" class="ios_app">
+      <a href="https://itunes.apple.com/app/id1176796242" class="ios_app">
 
       </a>
       <a href="javascript:;" class="scan_code">
-
+          <img src="../../../static/images/cloud/weishi.png" alt="" width="100%"/>
       </a>
     </div>
   </div>
 </template>
+<script type="text/javascript">
+  export default {
+
+    ready() {
+      this.doresize();
+      window.onresize = () => {
+        this.doresize();
+      }
+    },
+    methods: {
+      doresize() {
+        var con = document.getElementById('welcome-content');
+        var winHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        con.style.height = (winHeight - 280) + 'px';
+      }
+    }
+
+  }
+</script>
 <style media="screen">
   html {
     overflow: auto!important;
@@ -35,7 +54,7 @@
 
   .welcome-header {
     height: 60px;
-    line-height: 60px;
+    line-height: 70px;
     background: #fff;
   }
 

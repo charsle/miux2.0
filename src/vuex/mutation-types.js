@@ -32,3 +32,5 @@ export const TASK_CHECKED = 'TASK_CHECKED'; //公告标签
 export const GROUP_LIST_ITEM = 'GROUP_LIST_ITEM'; //公告标签
 export const ADD_PUBLIC_GROUP = 'ADD_PUBLIC_GROUP'; //公开频组
 export const ADD_SECRET_GROUP = 'ADD_SECRET_GROUP'; //公开频组
+export const UPLOAD_FILES_RETUEN = 'UPLOAD_FILES_RETUEN'; //公开频组
+export const CHOOSE_FILES_ITEM = 'CHOOSE_FILES_ITEM'; //公开频组

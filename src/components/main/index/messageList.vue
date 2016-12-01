@@ -89,7 +89,7 @@
 			sendNewPersonSingleList: {
 				handler() {
 					var isExits = JSON.stringify(this.messageList).indexOf(this.sendNewPersonSingleList.UM0301);
-					console.log(this.sendNewPersonSingleList.UM0301);
+					console.log(JSON.stringify(this.sendNewPersonSingleList));
 					if (isExits < 0) {
 
 						this.messageList.push(this.sendNewPersonSingleList);
@@ -98,13 +98,21 @@
 			},
 			newMessageList: {
 				handler() {
-					// console.info('接受到的信息', this.newMessageList)
+					// console.info('接受到的信息', JSON.stringify(this.newMessageList))
 					var singleList = this.newMessageList;
+
 					var loop = false;
 					for (let item of this.messageList) {
 						//判断接受的消息是否在列表中 在列表中只改变消息内容和时间
 						if (singleList.MSG00107 == 1) {
 							if (item.UM0302 == singleList.MSG00102 || item.UM0302 == singleList.MSG00104) {
+								loop = true;
+								if (singleList.hasOwnProperty('isSelf')) {
+									item.UM0302 = singleList.MSG00104;
+									item.UM0303 = singleList.MSG00105;
+									item.UM0304 = singleList.MSG00102;
+									item.UM0305 = singleList.MSG00103;
+								}
 								item.UM0306 = singleList.MSG00106;
 								item.UM0309 = gloabl.judgeType(singleList.MSG00108, singleList.MSG00109);
 								if (item.UM0302 === this.nowCurrent.sendid) {
@@ -112,11 +120,12 @@
 								} else {
 									item.UM0310 = 0;
 								}
-							} else {
-								loop = true;
+
+								break;
 							}
 						} else {
 							if (item.UM0302 == singleList.MSG00104) {
+								loop = true;
 								item.UM0306 = singleList.MSG00106;
 								item.UM0309 = gloabl.judgeType(singleList.MSG00108, singleList.MSG00109);
 								if (singleList.MSG00104 === this.nowCurrent.sendid) {
@@ -124,18 +133,65 @@
 								} else {
 									item.UM0310 = 0;
 								}
-							} else {
-								loop = true;
+								break;
 							}
 						}
+
 					}
-					// console.log(loop);
-					// if (looloop) {
-					//
-					// }
+					// console.log(loop, '发送');
+					if (!loop) {
+						var sendName = '',
+							redType = '',
+							docImg = '';
 
+						if (singleList.MSG00107 == 2) {
+							sendName = singleList.MSG00105;
+							redType = 0;
 
+						} else {
+							// if (singleList.hasOwnProperty('isSelf')) {
+							// 	console.log(loop + '发送');
+							// 	sendName = singleList.MSG00105;
+							// 	redType = 1;
+							// } else {
+							// 	sendName = singleList.MSG00103
+							// 	console.log(loop + '接受');
+							// 	redType = singleList.UM0310
+							// 	console.log(redType);
+							// }
+							if (singleList.hasOwnProperty('isShare')) {
+								docImg = singleList.docImg;
+							} else {
+								docImg = singleList.MSG00110;
+							}
+						}
+
+						var dd = {
+							UM0301: singleList.MSG00101,
+							UM0302: singleList.MSG00102,
+							UM0303: singleList.MSG00103,
+							UM0304: singleList.MSG00104,
+							UM0305: singleList.MSG00105,
+							UM0306: singleList.MSG00106,
+							UM0307: singleList.MSG00107,
+							UM0308: singleList.MSG00108,
+							UM0309: gloabl.judgeType(singleList.MSG00108, singleList.MSG00109),
+							UM0310: redType,
+							UM0311: singleList.MSG00101,
+							tx: docImg
+						}
+						if (singleList.hasOwnProperty('isSelf')) {
+							dd.UM0302 = singleList.MSG00104;
+							dd.UM0303 = singleList.MSG00105;
+							dd.UM0304 = singleList.MSG00102;
+							dd.UM0305 = singleList.MSG00103;
+						}
+						console.log(JSON.stringify(dd));
+						this.messageList.unshift(dd);
+					}
 				}
+
+
 			}
 		}
 
