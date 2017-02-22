@@ -26,6 +26,11 @@ export function filters(Vue) {
             return date;
         }
     });
+    Vue.filter('timeReset', timestamp => {
+        if (timestamp != null) {
+            return timestamp.substring(5, timestamp.length - 3);
+        }
+    })
     Vue.filter('time', timestamp => {
         timestamp = timestamp.replace(/-/g, '/');
         var formatDay = new Date(timestamp);

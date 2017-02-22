@@ -14,7 +14,8 @@ const CT_PATH = 'http://test.um.miux.com:8089/MIUX_ESE_CT/';
 const TM_PATH = 'http://test.tm.miux.com:8089/miux_ESE2.0_tm/'
 const DM_PATH = 'http://test.dm.miux.com:8089/miux_dm/';
 const MM_PATH = 'http://test.mm.miux.com:8089/miux_mm/'
-    //有权限
+const CK_PATH = 'http://test.ck.miux.com:8090/miux_ESE_ck/'; //审批流程
+//有权限
 export const UPLOAD_PRVATE = "http://192.168.1.63:5171/";
 // // 无权限
 export const UPLOAD_NOT_PRVATE = "http://192.168.1.63:5181/";
@@ -37,6 +38,7 @@ export const WEBSOCKET_GCOMET = 'http://192.168.1.63:5150/v1/gComet.addr'; // we
 // const DM_PATH = 'http://test.dm.miux.com:8083/miux_yun_dm/';
 // // const DM_PATH = 'http://dm.miux.com:8081/miux_yun_dm/';
 // const MM_PATH = 'http://test.mm.miux.com:8084/miux_yun_mm/'
+// const CK_PATH = 'http://test.ck.miux.com:8090/miux_ESE_ck/'; //审批流程
 //   //   //   // //有权限
 // export const UPLOAD_PRVATE = "http://192.168.1.63:5171/";
 // // // // 无权限
@@ -57,6 +59,7 @@ export const WEBSOCKET_GCOMET = 'http://192.168.1.63:5150/v1/gComet.addr'; // we
 // const TM_PATH = 'http://hz.miux.com.cn:8082/miux_yun_tm/'
 // const DM_PATH = 'http://hz.miux.com.cn:8081/miux_yun_dm/';
 // const MM_PATH = 'http://hz.miux.com.cn:8085/miux_yun_mm/'
+// const CK_PATH = 'http://test.ck.miux.com:8090/miux_ESE_ck/'; //审批流程
 //   //   // //有权限
 // export const UPLOAD_PRVATE = "http://hz.miux.com.cn:7171/";
 // // // 无权限
@@ -77,6 +80,7 @@ export const WEBSOCKET_GCOMET = 'http://192.168.1.63:5150/v1/gComet.addr'; // we
 // const TM_PATH = 'http://dl.miux.com.cn:8082/miux_yun_tm/'
 // const DM_PATH = 'http://dl.miux.com.cn:8081/miux_yun_dm/';
 // const MM_PATH = 'http://dl.miux.com.cn:8085/miux_yun_mm/'
+// const CK_PATH = 'http://test.ck.miux.com:8090/miux_ESE_ck/'; //审批流程
 //     //   // //有权限
 // export const UPLOAD_PRVATE = "http://dl.miux.com.cn:7171/";
 // // // 无权限
@@ -103,6 +107,7 @@ export const WEBSOCKET_GCOMET = 'http://192.168.1.63:5150/v1/gComet.addr'; // we
 // const TM_PATH = 'http://tm.miux.com:8081/miux_ESE2.0_tm/'
 // const DM_PATH = 'http://dm.miux.com:8081/miux_dm/';
 // const MM_PATH = 'http://mm.miux.com:8081/miux_mm/';
+// const CK_PATH = 'http://test.ck.miux.com:8090/miux_ESE_ck/'; //审批流程
 // // 有权限
 // export const UPLOAD_PRVATE = "http://192.168.1.63:5171/";
 // // 无权限
@@ -125,6 +130,7 @@ export const WEBSOCKET_GCOMET = 'http://192.168.1.63:5150/v1/gComet.addr'; // we
 // const DM_PATH = 'http://dm.miux.com.cn:8085/miux_dm/';
 // const MM_PATH = 'http://mm.miux.com.cn:8086/miux_mm/';
 // export const UPLOAD_PRVATE = "http://fs.miux.com.cn:5171/";
+// const CK_PATH = 'http://test.ck.miux.com:8090/miux_ESE_ck/'; //审批流程
 // // 无权限
 // export const UPLOAD_NOT_PRVATE = "http://fs.miux.com.cn:5181/";
 // export const URL_DOWNLOAD = UPLOAD_PRVATE + 'download/'; //下载接口(有权限)
@@ -142,7 +148,9 @@ export const WEBSOCKET_GCOMET = 'http://192.168.1.63:5150/v1/gComet.addr'; // we
 // const TM_PATH = 'http://miux.copticomm.com:8082/miux_ESE2.0_tm/'
 // const DM_PATH = 'http://miux.copticomm.com:8081/miux_dm/';
 // const MM_PATH = 'http://miux.copticomm.com:8085/miux_mm/';
+// const CK_PATH = 'http://test.ck.miux.com:8090/miux_ESE_ck/'; //审批流程
 // export const UPLOAD_PRVATE = "http://miux.copticomm.com:5171/";
+
 // // //无权限
 // export const UPLOAD_NOT_PRVATE = "http://miux.copticomm.com:5181/";
 // export const URL_DOWNLOAD = UPLOAD_PRVATE + 'download/'; //下载接口(有权限)
@@ -170,6 +178,16 @@ export const WEBSOCKET_GCOMET = 'http://192.168.1.63:5150/v1/gComet.addr'; // we
 // export const GET_COOKIE_URL = COOKIE_PATH + 'getSession.action?CTYPE=8'; // 获取全部的cookie
 // export const WEBSOCKET_GCOMET = 'http://dl.miux.com.cn:5150/v1/gComet.addr'; // websocket
 //-----------end------------------------
+
+
+//审批功能
+export const CREATE_APPLY = CK_PATH + 'ESCK001.action' //创建审批
+export const EDITOR_APPLY = CK_PATH + 'ESCK002.action' //重新编辑审批
+export const GIVE_UP_APPLY = CK_PATH + 'ESCK003.action' //放弃审批审批
+export const DELIVER_APPLY = CK_PATH + 'ESCK004.action' //转呈审批
+export const APPLY_LISTS = CK_PATH + 'ESCK005.action' //审批列表
+export const APPLY_DETAILE = CK_PATH + 'ESCK006.action' //审批列表详细
+export const IS_LOOK_APPLY = CK_PATH + 'ESCK007.action' //审批查看取消小红点
 
 export const IMAGE_CODE_URL = UM_PATH + 'ESUMG003.action'; //图片验证码
 export const LOGIN_URL = UM_PATH + 'ESUMG006.action'; //登录

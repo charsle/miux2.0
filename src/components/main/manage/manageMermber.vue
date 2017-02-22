@@ -109,9 +109,9 @@
 
 							<tr @mouseenter="mouseEnter($event)" @mouseleave="mouseLeave($event)" class="tr_click_show pointer" v-for="item in searchData | filterBy msearch in 'TM00306' 'TM00308' " track-by="$index">
 								<td><input type="checkbox" v-model="checkedNames" :value="item.TM00301" /></td>
-								<td>
+							<td>
 									<span class="span_click_show">{{item.TM00306}}</span>
-									<span class="input_click_show"><input type="text" class="form-control" value="{{item.TM00306}}" name="userName" style="width: 80%;"></span></td>
+				·					<span class="input_click_show"><input type="text" class="form-control" value="{{item.TM00306}}" name="userName" style="width: 80%;"></span></td>
 								<td>
 									<span>{{item.TM00308}} </span>
 									<!--<span class="input_click_show"><input type="text" value="{{item.TM00308}}" class="form-control" name="userMobile" style="width: 80%;"></span></td>-->

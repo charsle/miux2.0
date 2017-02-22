@@ -20,7 +20,8 @@
 				<i class="glyphicon glyphicon-menu-right fr lh25"></i>
 				<div class="clearfix"></div>
 			</div>
-			<div class="col-xs-12 paddStyle lh20" v-for="(key,item) in taskList" v-if="key<4" v-cloak>
+			<div class="col-xs-12 paddStyle lh20" v-for="item in taskList"  v-cloak>
+				<div v-if="$index<4">
 				<div class="col-xs-10 task_left_title" @click="overTaskShow(item.CT00101,$index)">
 					<div class="row fs12 white">
 						{{item.CT00104}}
@@ -36,6 +37,7 @@
 					<div class="row red">
 						<i class="iconfont">&#xe605;</i>
 					</div>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -63,184 +65,184 @@
 	</div>
 </template>
 <script type="text/javascript">
-	import contactList from './contactList';
-	import messageList from './messageList';
-	import seeDetaile from '../model/seeDetaile';
-	import gloabl from '../../../api/globConfig'
-	import * as URL from '../../../api/restfull'
-	import {
-		sendRegisterInfo
-	} from '../../../assets/js/websocket';
+    import contactList from './contactList';
+    import messageList from './messageList';
+    import seeDetaile from '../model/seeDetaile';
+    import gloabl from '../../../api/globConfig'
+    import * as URL from '../../../api/restfull'
+    import {
+        sendRegisterInfo
+    } from '../../../assets/js/websocket';
 
 
-	export default {
-		data() {
-			return {
-				isActive: true,
-				noActive: false,
-				currentView: 'message',
-				info: Object,
-				taskList: [],
-				taskInfoDet: '',
-				taskNumber: '1',
-				checked: false
-			}
-		},
-		vuex: {
-			getters: {
-				getNewTask(state) {
-					return state.taskList;
-				},
-				getFinshTaskID(state) {
-					return state.finishTaskID;
-				},
-				getTaskChecked(state) {
-					return state.taskChecked;
-				}
-			}
-		},
-		watch: {
-			getNewTask: {
-				//deep: true,
-				handler() {
-					this.taskList.push(this.getNewTask);
-					this.computedHeight('add');
-				}
-			},
-			getFinshTaskID: {
-				handler() {
-					for (let item of this.taskList) {
-						if (this.getFinshTaskID == item.CT00101) {
-							this.taskList.$remove(item);
-							this.computedHeight('del');
-						}
-					}
-					console.log(1);
-				}
-			},
-			getTaskChecked: {
-				handler() {
-					this.checked = this.getTaskChecked
-				}
-			}
-		},
-		ready() {
-			var _hash = (location.href)
-			if (_hash.indexOf('contact') > -1) {
-				this.isActive = false
-				this.noActive = true
-				this.currentView = 'contact';
-			} else if (_hash.indexOf('message') > -1) {
-				this.isActive = true
-				this.noActive = false
-				this.currentView = 'message';
-			}
-			this.getUserInfo();
-			this.getTaskInfo();
-		},
-		methods: {
-			computedHeight(type) {
-				if (this.taskList.length <= 4) {
-					var height = document.getElementById('slid_bars').style.height
-					if (type == 'add') {
-						document.getElementById('slid_bars').style.height = (Number(height.replace('px', '')) - 50) + 'px';
-					} else {
-						// console.log('222', '----')
-						document.getElementById('slid_bars').style.height = (Number(height.replace('px', '')) + 50) + 'px';
-					}
-				}
-			},
-			currentRightTag(type) {
-				this.$store.dispatch('SWITCH_RIGHT', type);
-			},
-			//勾选完成行事历
-			overTaskChoose(tid, index) {
-				var params = 'CT00101=' + tid + '&CTT05=1';
-				var textTip = "您确定已完成此事项任务？";
-				layer.confirm(textTip, () => {
-					gloabl.fethAsync(URL.REFRESH_TASK_URL, params, res => {
-						if (res.success) {
+    export default {
+        data() {
+            return {
+                isActive: true,
+                noActive: false,
+                currentView: 'message',
+                info: Object,
+                taskList: [],
+                taskInfoDet: '',
+                taskNumber: '1',
+                checked: false
+            }
+        },
+        vuex: {
+            getters: {
+                getNewTask(state) {
+                    return state.taskList;
+                },
+                getFinshTaskID(state) {
+                    return state.finishTaskID;
+                },
+                getTaskChecked(state) {
+                    return state.taskChecked;
+                }
+            }
+        },
+        watch: {
+            getNewTask: {
+                //deep: true,
+                handler() {
+                    this.taskList.push(this.getNewTask);
+                    this.computedHeight('add');
+                }
+            },
+            getFinshTaskID: {
+                handler() {
+                    for (let item of this.taskList) {
+                        if (this.getFinshTaskID == item.CT00101) {
+                            this.taskList.$remove(item);
+                            this.computedHeight('del');
+                        }
+                    }
+                    console.log(1);
+                }
+            },
+            getTaskChecked: {
+                handler() {
+                    this.checked = this.getTaskChecked
+                }
+            }
+        },
+        ready() {
+            var _hash = (location.href)
+            if (_hash.indexOf('contact') > -1) {
+                this.isActive = false
+                this.noActive = true
+                this.currentView = 'contact';
+            } else if (_hash.indexOf('message') > -1) {
+                this.isActive = true
+                this.noActive = false
+                this.currentView = 'message';
+            }
+            this.getUserInfo();
+            this.getTaskInfo();
+        },
+        methods: {
+            computedHeight(type) {
+                if (this.taskList.length <= 4) {
+                    var height = document.getElementById('slid_bars').style.height
+                    if (type == 'add') {
+                        document.getElementById('slid_bars').style.height = (Number(height.replace('px', '')) - 50) + 'px';
+                    } else {
+                        // console.log('222', '----')
+                        document.getElementById('slid_bars').style.height = (Number(height.replace('px', '')) + 50) + 'px';
+                    }
+                }
+            },
+            currentRightTag(type) {
+                this.$store.dispatch('SWITCH_RIGHT', type);
+            },
+            //勾选完成行事历
+            overTaskChoose(tid, index) {
+                var params = 'CT00101=' + tid + '&CTT05=1';
+                var textTip = "您确定已完成此事项任务？";
+                layer.confirm(textTip, () => {
+                    gloabl.fethAsync(URL.REFRESH_TASK_URL, params, res => {
+                        if (res.success) {
 
-							this.$store.dispatch('FINISH_TASH_ID', tid);
+                            this.$store.dispatch('FINISH_TASH_ID', tid);
 
-							layer.closeAll();
-						} else {
-							gloabl.tipTools('操作失败');
-						}
+                            layer.closeAll();
+                        } else {
+                            gloabl.tipTools('操作失败');
+                        }
 
-					});
-				})
-			},
-			tabChange(tag) {
-				if (tag === 'message') {
-					this.isActive = true
-					this.noActive = false
-				} else {
-					this.isActive = false
-					this.noActive = true
-				}
-				this.currentView = tag;
-			},
-			getUserInfo() {
-				gloabl.fethAsync([URL.SETTING_URL], '', res => {
-					if (res.success) {
-						this.info = res.result;
-						sendRegisterInfo(this);
-					}
+                    });
+                })
+            },
+            tabChange(tag) {
+                if (tag === 'message') {
+                    this.isActive = true
+                    this.noActive = false
+                } else {
+                    this.isActive = false
+                    this.noActive = true
+                }
+                this.currentView = tag;
+            },
+            getUserInfo() {
+                gloabl.fethAsync([URL.SETTING_URL], '', res => {
+                    if (res.success) {
+                        this.info = res.result;
+                        sendRegisterInfo(this);
+                    }
 
-				});
-			},
-			getTaskInfo() {
-				gloabl.fethAsync([URL.GET_LEFT_TASKDONE_LIST], '', res => {
+                });
+            },
+            getTaskInfo() {
+                gloabl.fethAsync([URL.GET_LEFT_TASKDONE_LIST], '', res => {
 
-					if (res.success) {
-						this.taskList = res.result;
-					}
+                    if (res.success) {
+                        this.taskList = res.result;
+                    }
 
-				});
-			},
-			overTaskShow(taskSid, numTask) {
-				var self = this;
-				self.$store.dispatch('TASK_CHECKED', false);
-				gloabl.fethAsync([URL.TASK_DETAILE_URL], 'CT00101=' + taskSid, res => {
-					if (res.success) {
-						this.taskInfoDet = res.result;
-						gloabl.layer.open({
-							type: 1,
-							title: '事项详情',
-							area: ['600px'],
-							skin: '',
-							btn: ['确定'],
-							content: $('#showDetaile'),
-							yes() {
-								if (self.checked) {
-									var params = 'CT00101=' + taskSid + '&CTT05=1';
-									gloabl.fethAsync([URL.REFRESH_TASK_URL], params, res => {
-										if (res.success) {
-											self.$store.dispatch('FINISH_TASH_ID', taskSid);
-											self.$store.dispatch('TASK_CHECKED', false);
+                });
+            },
+            overTaskShow(taskSid, numTask) {
+                var self = this;
+                self.$store.dispatch('TASK_CHECKED', false);
+                gloabl.fethAsync([URL.TASK_DETAILE_URL], 'CT00101=' + taskSid, res => {
+                    if (res.success) {
+                        this.taskInfoDet = res.result;
+                        gloabl.layer.open({
+                            type: 1,
+                            title: '事项详情',
+                            area: ['600px'],
+                            skin: '',
+                            btn: ['确定'],
+                            content: $('#showDetaile'),
+                            yes() {
+                                if (self.checked) {
+                                    var params = 'CT00101=' + taskSid + '&CTT05=1';
+                                    gloabl.fethAsync([URL.REFRESH_TASK_URL], params, res => {
+                                        if (res.success) {
+                                            self.$store.dispatch('FINISH_TASH_ID', taskSid);
+                                            self.$store.dispatch('TASK_CHECKED', false);
 
-											gloabl.tipTools('该事项已标记完成');
-											gloabl.layer.closeAll();
-										} else {
-											gloabl.tipTools('操作失败');
-										}
-									})
-								}
-								gloabl.layer.closeAll();
-							}
-						});
-					} else {
-						gloabl.tipTools('操作失败');
-					}
+                                            gloabl.tipTools('该事项已标记完成');
+                                            gloabl.layer.closeAll();
+                                        } else {
+                                            gloabl.tipTools('操作失败');
+                                        }
+                                    })
+                                }
+                                gloabl.layer.closeAll();
+                            }
+                        });
+                    } else {
+                        gloabl.tipTools('操作失败');
+                    }
 
-				})
-			}
-		},
-		components: {
-			contact: contactList,
-			message: messageList,
-			seeDetaile
-		}
-	}
+                })
+            }
+        },
+        components: {
+            contact: contactList,
+            message: messageList,
+            seeDetaile
+        }
+    }
 </script>

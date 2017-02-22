@@ -11,35 +11,38 @@ import mutations from './mutations'
 // 告诉 vue “使用” vuex
 Vue.use(Vuex)
 export default new Vuex.Store({
-  state: {
-    currentRight: '', // 右边弹出框状态
-    currentID: '', //右边弹出框id
-    departmentList: null, // 获取部门人的数据
-    currentParentType: '',
-    showGroupIcon: [], //是否是频组信息
-    taskList: [], //行事历
-    finishTaskID: '', //行事历完成id
-    chooseSuerPerson: [], //选择参与人员列表
-    chooseSuerIndex: [], //选择参与id
-    layersObject: null,
-    areaManage: '',
-    sendNewPersonList: {},
-    currentThreadID: null, //当前会话者id
-    manageList: [],
-    cancelStar: {},
-    messageList: [],
-    userList: [],
-    shareDocData: '',
-    noticeTab: false,
-    threads: {},
-    messages: [],
-    pressBar: 0,
-    taskChecked: false,
-    groupListItem: [],
-    addPublicGroup: {}, //公开群组
-    addSecretGroup: {}, //私密群组
-    uploadReturnList: {}, //上传返回值
-    chooseFilesItem: {}
-  },
-  mutations,
+    state: {
+        currentRight: '', // 右边弹出框状态
+        currentID: '', //右边弹出框id
+        departmentList: null, // 获取部门人的数据
+        currentParentType: '',
+        showGroupIcon: [], //是否是频组信息
+        taskList: [], //行事历
+        finishTaskID: '', //行事历完成id
+        chooseSuerPerson: [], //选择参与人员列表
+        chooseSuerIndex: [], //选择参与id
+        layersObject: null,
+        areaManage: '',
+        sendNewPersonList: {},
+        currentThreadID: null, //当前会话者id
+        manageList: [],
+        cancelStar: {},
+        messageList: [],
+        userList: [],
+        shareDocData: '',
+        noticeTab: false,
+        threads: {},
+        messages: [],
+        pressBar: {},
+        taskChecked: false,
+        groupListItem: [],
+        addPublicGroup: {}, //公开群组
+        addSecretGroup: {}, //私密群组
+        uploadReturnList: {}, //上传返回值
+        chooseFilesItem: {},
+        newApplyObj: {},
+        editApply: [],
+
+    },
+    mutations,
 })

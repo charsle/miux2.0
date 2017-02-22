@@ -1,6 +1,7 @@
 <script type="text/javascript">
     import 'bootstrap/dist/css/bootstrap.min.css'
     import '../../../assets/css/reset.css';
+    import '../../../assets/css/apply.css';
     import '../../../assets/css/iconfont.css';
     import '../../../assets/css/font1/iconfont.css';
     import '../../../../static/lib/layer/skin/layer.css'
@@ -52,6 +53,7 @@
                 sessionIndex: 0,
                 is_show: '',
                 numberP: 0,
+                isShow: false,
                 BASE_URL_CONFIG: systemConfig, //全局配置logo,
             }
         }, //初始化
@@ -81,10 +83,13 @@
         },
 
         watch: {
-            pressNum: {
+            pressFileObj: {
                 handler() {
-                    console.log(this.pressNum);
-                    this.numberP = this.pressNum;
+                    var numberP = this.pressFileObj.pressNum;
+                    this.isShow = this.pressFileObj.isShow;
+                    $('.progress-bar-striped').css({
+                        width: numberP
+                    })
                 }
             }
         },
@@ -93,7 +98,7 @@
                 current(state) {
                     return state.currentRight
                 },
-                pressNum(state) {
+                pressFileObj(state) {
                     return state.pressBar
                 }
             }
@@ -119,7 +124,7 @@
             ada,
             fileModel,
             load,
-            apply
+            apply,
         }
 
     }
@@ -162,7 +167,7 @@
 		</div>
 
 		<div id="listener"></div>
-		<!-- <div class="upLoadFile" id="pressUpload" style="display: none;">
+		 <div class="upLoadFile" id="pressUpload" :style="{display:pressFileObj.isShow==true?'block':'none' }">
 			<h4 class="bottom">文件
 				<a href="javascript:;" class="fr light-grey">
 					<i class="fs18 iconfont">&#xe60c;</i>
@@ -171,15 +176,16 @@
 			</h4>
 			<div class="col-xs-12 share_content ">
 				<div class="col-xs-2 fs48 ">
-					<i class="iconfont pdf_color">&#xe623;</i>
+                    {{{pressFileObj.fileType | valideType}}}
+					<!--<i class="iconfont pdf_color">&#xe623;</i>-->
 				</div>
 				<div class="col-xs-10 mt10">
-					<div class="row overflow nowrap" id="u_fileName"></div>
-					<div class="row light-grey mt2"><span id="u_pressNum">{{pressNum}}%</span>&nbsp;<span id="u_fileSize"></span></div>
+					<div class="row overflow nowrap" id="u_fileName">{{pressFileObj.fileName}}</div>
+					<div class="row light-grey mt2"><span id="u_pressNum">{{pressFileObj.pressNum}}</span>&nbsp;<span id="u_fileSize">{{pressFileObj.fileSize | fileSize}}</span></div>
 					<div class="row">
 						<div class="col-xs-8 mt5">
 							<div class="progress">
-								<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="20" aria-valuemin="0" id="uploadbar" aria-valuemax="100" :style="{width:pressNum+'%'}">
+								<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="{{pressFileObj.pressNum}}" aria-valuemin="0" id="uploadbar" aria-valuemax="100" >
 									<span class="sr-only">20% Complete</span>
 								</div>
 							</div>
@@ -191,7 +197,7 @@
 					</div>
 				</div>
 			</div>
-		</div> -->
+		</div> 
 
 	</div>
 	</div>

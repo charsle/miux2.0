@@ -49,7 +49,7 @@
 				<a v-link="{path: '/manage/tram'}" class="icon_manage" title="团队管理" v-if="isManage.UM0121!=0" @click="showManageTab"><i class="icon iconfont">&#xe603;</i></a>
 				<a href="javascript:;" class="icon_books" @click="currentRightTag('books','')" title="通讯录"><i class="icon iconfont">&#xe616;</i></a>
 				<a href="javascript:;" class="icon_doc" @click="currentRightTag('doc')" title="文档库"><i class="icon iconfont">&#xe615;</i></a>
-				<a href="javascript:;" class="icon_doc" @click="currentRightTag('apply')" title="审批流程"><i class="iconfont icon-yinzhang2"></i></a>
+				<a href="javascript:;" class="icon_apply" @click="currentRightTag('apply')" title="审批流程"><i class="iconfont icon-yinzhang2"></i></a>
 				<a href="javascript:;" class="icon_task" @click="currentRightTag('task')" title="行事历"><i class="icon iconfont">&#xe605;</i></a>
 				<a href="javascript:;" class="icon_about" @click="currentRightTag('about')" title="与我有关"><i class="icon iconfont">&#xe60a;</i></a>
 				<a href="javascript:;" class="icon_star" @click="currentRightTag('star')" title="星标收藏"><i class="icon iconfont">&#xe60b;</i></a>
@@ -65,7 +65,7 @@
 						<a href="javascript:;" class="icon_star" @click="currentRightTag('star')" title="星标收藏"><i class="icon iconfont">&#xe60b;</i>星标收藏</a>
 						<a href="javascript:;" class="icon_about" @click="currentRightTag('about')" title="与我有关"><i class="icon iconfont">&#xe60a;</i>与我有关</a>
 						<a href="javascript:;" class="icon_task" @click="currentRightTag('task')" title="行事历"><i class="icon iconfont">&#xe605;</i>行事历</a>
-						<a href="javascript:;" class="icon_doc" @click="currentRightTag('apply')" title="审批流程"><i class="iconfont icon-yinzhang2">;</i>审批流程</a>
+						<a href="javascript:;" class="icon_apply" @click="currentRightTag('apply')" title="审批流程"><i class="iconfont icon-yinzhang2">;</i>审批流程</a>
 						<a href="javascript:;" class="icon_doc" @click="currentRightTag('doc')" title="文档库"><i class="icon iconfont">&#xe615;</i>文档库</a>
 						<a href="javascript:;" class="icon_books" @click="currentRightTag('books','')" title="通讯录"><i class="icon iconfont">&#xe616;</i>通讯录</a>
 						<a v-link="{path: '/manage/tram'}" class="icon_manage" title="团队管理" v-if="isManage.UM0121!=0"><i class="icon iconfont">&#xe603;</i>团队管理</a>

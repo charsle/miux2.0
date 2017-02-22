@@ -134,7 +134,7 @@
 
 .COMMENT_MODAL {
     width: 400px;
-    padding: 0 15px;
+    padding: 0 5px;
     position: relative;
     float: right;
     border-left: 1px solid #ededed;

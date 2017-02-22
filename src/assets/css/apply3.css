@@ -1,0 +1,150 @@
+.contImg img {
+  max-width: 100%;
+  max-height: 200px;
+  margin-top: 10px;
+}
+.listRes {
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+.btnApply {
+  border-bottom: 1px solid #e5e5e5;
+  line-height: 35px;
+  color: #c8c7cc;
+  position: relative;
+  cursor: pointer;
+}
+.btnApply .applyButtons {
+  color: #72787d;
+  text-align: center;
+  line-height: 35px;
+}
+.examineType1 .applyButtons {
+  width: 48%;
+}
+.examineType2 .applyButtons {
+  float: left;
+  width: 30%;
+}
+.imgCover {
+  display: inline-block;
+  position: relative;
+  max-height: 150px;
+  display: flex;
+  align-items: center;
+}
+.imgCover img {
+  max-width: 100%;
+  max-height: 150px;
+}
+.imgCoverDele {
+  display: block;
+  color: #8D959B;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 24px !important;
+  z-index: 99;
+}
+.imgCoverBlack {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  justify-content: center;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+}
+.toTopPopover {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.toTopPopover .arrow {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #fff;
+  position: absolute;
+  margin-left: -6px;
+  bottom: -6px;
+}
+.toTopPopover .arrowLeft {
+  left: 10%;
+}
+.toTopPopover .arrowCenter {
+  left: 50%;
+}
+.toTopPopover .arrowRight {
+  right: 10%;
+}
+.popTopBox {
+  width: 250px;
+  max-height: 200px;
+  background: #fff;
+  position: absolute;
+  left: 50%;
+  margin-left: -125px;
+  bottom: 50px;
+  display: none;
+  z-index: 88;
+  padding: 10px;
+}
+.btnSmallType {
+  width: 60px !important;
+  line-height: 15px;
+  font-size: 12px;
+}
+.smallIconapp {
+  display: block;
+  position: absolute;
+  right: 3px;
+  top: 10px;
+  width: 15px;
+  height: 15px;
+}
+.maxHApply {
+  max-height: 100px;
+}
+.applyStatusBtn {
+  cursor: pointer;
+  border-radius: 3px;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  color: #fff;
+  text-align: center;
+}
+.applyAgreeBtn i {
+  color: #fff !important;
+}
+.applyRefuseBtn {
+  background: #ff0000;
+}
+.applyRefuseBtn:hover {
+  background: #df0000;
+}
+.applyTurnBtn i {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  color: #53d769 !important;
+  background: #fff;
+  border-radius: 50%;
+}
+.applyStatusBase {
+  background: #53d769;
+}
+.applyStatusBase:hover {
+  background: #4ac35e;
+}
+/*# sourceMappingURL=apply.css.map */

@@ -36,7 +36,7 @@
 		<div class="clearfix "></div>
 		<div class="par"></div>
 		<div class="col-xs-12 text-right ptb10">
-			<a href="javascript:;" class="btn btn-sure" @click="uploadFilesSubmit">确定</a>
+			<a href="javascript:;" class="btn btn-sure" @click="uploadFilesSubmit" :disabled="isDisplay==true?'disabled':null">确定</a>
 			<a href="javascript:;" class="btn btn-cancle" @click="cancleFile">取消</a>
 		</div>
 	</div>
@@ -45,7 +45,7 @@
     import gloabl from '../../../api/globConfig'
     import * as URL from '../../../api/restfull'
     import StringUtil from '../../../assets/js/stringUtil';
-    // import UploadFile from '../../../assets/js/upload';
+    import UploadFile from '../../../assets/js/upload1';
     import {
         uploadAll
     } from '../../../assets/js/upload';
@@ -56,6 +56,7 @@
                 filesSelect: '',
                 filesDesc: '',
                 disabled: false,
+                isDisplay: false,
                 userInfo: JSON.parse(gloabl.getCookie('allUserInfo')).user
             }
         },
@@ -106,28 +107,21 @@
             //文档上传
             uploadFiles() {
                 //var loadFile = layer.load(2);
+                this.isDisplay = true;
                 let data = {
-                        type: 2,
-                        xls: '',
-                        parames: '',
-                        callback: function() {}
-                    }
-                    // var upload = new UploadFile(this.docModelItems.objFile, data);
+                    type: 2,
+                    xls: '',
+                    parames: '',
+                }
+                var objFile = this.docModelItems.objFile;
+                var upload = new UploadFile(objFile, data);
+                upload.initFileUpload((d) => {
 
-                // upload.initFileUpload(function(d) {
-                //     console.log(d, '-------');
-                // });
-                // console.log(upload);
-                // return;
-                uploadAll(2, this.docModelItems.objFile, '', '', (d) => {
-                    if (d.data == null) {
-                        return;
-                    }
                     var msgId = this.docModelItems.msgId; //UUId
                     var DM00103 = this.docModelItems.DM00103; //时间
-                    var DM00105 = (this.docModelItems.objFile.name).replace(/%/gi, '_'); //文件名称
+                    var DM00105 = (objFile.name).replace(/%/gi, '_'); //文件名称
                     var DM00106 = this.docModelItems.DM00106; //文件后缀
-                    var DM00108 = this.docModelItems.objFile.size; //文件大小
+                    var DM00108 = objFile.size; //文件大小
                     var DM00109 = this.filesDesc; //文档描述
                     var DM00110 = d.data.key; //文档key
                     //对话类型
@@ -158,14 +152,16 @@
                             '&DM00116=' + DM00116 + '&DM00117=' + DM00117 + '&DM00118=' + DM00118 + '&DM00119=' + DM00119;
                         this.sendFileMsg(params, DM00112);
                     }
+
                 }, (p) => {
-                    // var worker = new Worker("../../../assets/js/upload");
-                    // worker.onmessage = function(event) {
-                    // 	console.log(event);
-                    // 	$('.par').html(event);
-                    // };
-                    console.log(p, '----')
-                    this.$store.dispatch('PARESS_BAR', p);
+                    var data = {
+                        fileName: objFile.name,
+                        fileType: this.docModelItems.DM00106,
+                        fileSize: objFile.size,
+                        pressNum: p,
+                        isShow: true
+                    }
+                    this.$store.dispatch('PARESS_BAR', data);
                 });
             },
             //分享后发送信息
@@ -174,13 +170,21 @@
                     if (res.success) {
                         this.disabled = false;
                         gloabl.layer.msg("文件上传成功");
-                        //	this.param.orderBy = this.docType;
-                        //	this.getDocData();
                         var result = res.result
 
                         this.$store.dispatch('UPLOAD_FILES_RETUEN', JSON.parse(result.MSG00109));
-                        setTimeout(function() {
-                            gloabl.layer.closeAll();
+                        setTimeout(() => {
+                            this.isDisplay = false;
+                            var data = {
+                                fileName: '',
+                                fileType: '',
+                                fileSize: '',
+                                pressNum: '100%',
+                                isShow: false
+                            }
+                            this.$store.dispatch('PARESS_BAR', data);
+                            layer.closeAll();
+
                         }, 500);
                         if (DM00112 == 2) {
                             result.isSelf = 0;
